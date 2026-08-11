@@ -1,0 +1,19 @@
+Tested build metadata
+
+APK
+Name: NewSillyTavern-0.1.0-test7-arm64-debug.apk
+Bytes: 235666854
+SHA-256: fd670407d1c0ec05a274dcbcb98a98f18fbbb0f4d80643be2aec5d9e10838b59
+
+Node Android arm64 runtime
+Name: libnode.so
+Version: 24.18.0
+Bytes: 116367072
+SHA-256: 0898d88d3119a236c8e7dcf63ef8736384994654bda9db3884e6bbb2c9caac3b
+
+SillyTavern payload
+Name: st_bundle.tar
+Version: newsilly-st-1.18.0-node-24.18.0-arm64-v4
+Bytes: 421947392
+SHA-256: 60f445a76ab8791a1369946bd89cf636ee5b3d76ae4ea3957f3b7e95367b10d0
+

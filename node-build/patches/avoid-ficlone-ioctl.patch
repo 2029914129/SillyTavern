@@ -1,0 +1,20 @@
+diff --git a/deps/uv/src/unix/fs.c b/deps/uv/src/unix/fs.c
+index 90cb40d98d4..8b936fdbafc 100644
+--- a/deps/uv/src/unix/fs.c
++++ b/deps/uv/src/unix/fs.c
+@@ -1354,6 +1354,7 @@ static ssize_t uv__fs_copyfile(uv_fs_t* req) {
+ #endif  /* !__linux__ */
+   }
+ 
++#ifndef __ANDROID__
+ #ifdef FICLONE
+   if (req->flags & UV_FS_COPYFILE_FICLONE ||
+       req->flags & UV_FS_COPYFILE_FICLONE_FORCE) {
+@@ -1373,6 +1374,7 @@ static ssize_t uv__fs_copyfile(uv_fs_t* req) {
+     err = UV_ENOSYS;
+     goto out;
+   }
++#endif
+ #endif
+ 
+   bytes_to_send = src_statsbuf.st_size;

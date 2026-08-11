@@ -1,0 +1,796 @@
+/* Horae stays mounted in its original drawer. This file only adapts that drawer
+   while the new shell is active, so plugin data and event handlers remain intact. */
+
+body.furry-horae-open {
+    overflow: hidden;
+    overscroll-behavior: none;
+}
+
+body.furry-shell-enabled.furry-horae-open #top-settings-holder {
+    z-index: 7350;
+}
+
+body.furry-shell-enabled.furry-horae-open #top-settings-holder > #horae_drawer {
+    pointer-events: none;
+}
+
+body.furry-shell-enabled #furry-horae-backdrop.furry-horae-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 7250;
+    opacity: 0;
+    background: rgb(7 9 12 / 58%);
+    backdrop-filter: blur(4px) saturate(112%);
+    -webkit-backdrop-filter: blur(4px) saturate(112%);
+    pointer-events: none;
+    transition: opacity 170ms ease;
+}
+
+body.furry-shell-enabled #furry-horae-backdrop.furry-horae-backdrop[hidden] {
+    display: none;
+}
+
+body.furry-shell-enabled #furry-horae-backdrop.furry-horae-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel {
+    --horae-primary: var(--furry-cyan, #77eeff);
+    --horae-primary-light: #a7f5ff;
+    --horae-primary-dark: #2f93a3;
+    --horae-accent: var(--furry-orange, #f37447);
+    --horae-success: var(--furry-green, #66d8a2);
+    --horae-warning: #f5b75c;
+    --horae-danger: var(--furry-rose, #ff7c8a);
+    --horae-info: var(--furry-blue, #619cff);
+    --horae-bg: rgb(20 22 26 / 88%);
+    --horae-bg-secondary: rgb(27 29 34 / 84%);
+    --horae-bg-hover: rgb(255 255 255 / 8%);
+    --horae-border: rgb(255 255 255 / 11%);
+    --horae-text: var(--furry-text, #f4f4f6);
+    --horae-text-muted: var(--furry-muted, #aaaab1);
+    --horae-shadow: 0 24px 72px rgb(0 0 0 / 48%);
+    --horae-radius: 8px;
+    --horae-radius-sm: 6px;
+    position: fixed;
+    top: calc(var(--furry-header-height, 68px) + 10px);
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: calc(var(--furry-nav-height, 72px) + max(10px, env(safe-area-inset-bottom, 0px)));
+    left: auto;
+    z-index: 2;
+    display: none;
+    flex-direction: column;
+    width: clamp(580px, 43vw, 640px);
+    min-width: min(580px, calc(100vw - 24px));
+    max-width: calc(100vw - max(24px, env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px)));
+    height: auto;
+    max-height: none;
+    margin: 0;
+    padding: 0 !important;
+    overflow: hidden;
+    color: var(--horae-text) !important;
+    font-family: "Noto Sans", "Microsoft YaHei", sans-serif;
+    line-height: 1.45;
+    border: 1px solid var(--horae-border) !important;
+    border-radius: 8px;
+    background: var(--furry-glass-sheen, linear-gradient(145deg, rgb(255 255 255 / 7%), transparent 30%)), var(--horae-bg) !important;
+    box-shadow: var(--horae-shadow) !important;
+    backdrop-filter: blur(22px) saturate(128%);
+    -webkit-backdrop-filter: blur(22px) saturate(128%);
+    isolation: isolate;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    pointer-events: auto;
+    transform-origin: right center;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel.openDrawer {
+    display: flex;
+    animation: furry-horae-liquid-in 210ms cubic-bezier(0.22, 0.8, 0.26, 1) both;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel:not(.openDrawer) {
+    pointer-events: none;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto 40px;
+    align-items: center;
+    min-height: 60px;
+    margin: 0;
+    padding: 9px 10px 9px 16px;
+    gap: 10px;
+    border: 0;
+    border-bottom: 1px solid var(--horae-border);
+    border-radius: 0;
+    background: var(--horae-bg-secondary);
+    box-shadow: inset 0 1px 0 var(--furry-glass-highlight, rgb(255 255 255 / 8%));
+    backdrop-filter: blur(18px) saturate(126%);
+    -webkit-backdrop-filter: blur(18px) saturate(126%);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-title {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--horae-text);
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-title i {
+    flex: 0 0 auto;
+    color: var(--horae-primary);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-version {
+    color: var(--horae-text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    border: 1px solid var(--horae-border);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--horae-text) 6%, transparent);
+    white-space: nowrap;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel #furry-horae-close.furry-horae-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    margin: 0;
+    padding: 0 !important;
+    color: var(--horae-text-muted) !important;
+    font-size: 17px;
+    line-height: 1;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel #furry-horae-close.furry-horae-close:hover,
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel #furry-horae-close.furry-horae-close:focus-visible {
+    color: var(--horae-primary) !important;
+    border-color: color-mix(in srgb, var(--horae-primary) 38%, transparent) !important;
+    background: color-mix(in srgb, var(--horae-primary) 10%, transparent) !important;
+    outline: none;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel #furry-horae-close.furry-horae-close:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 58%, transparent);
+    outline-offset: 2px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel #furry-horae-close.furry-horae-close:active {
+    transform: scale(0.94);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs {
+    position: relative;
+    z-index: 6;
+    display: flex;
+    flex: 0 0 auto;
+    min-width: 0;
+    min-height: 58px;
+    margin: 0;
+    padding: 4px 8px;
+    gap: 3px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 1px solid var(--horae-border);
+    background: var(--horae-bg-secondary);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--horae-text) 8%, transparent);
+    backdrop-filter: blur(14px) saturate(118%);
+    -webkit-backdrop-filter: blur(14px) saturate(118%);
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--horae-primary) 32%, transparent) transparent;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab {
+    flex: 1 0 64px;
+    min-width: 64px;
+    min-height: 48px;
+    margin: 0;
+    padding: 6px 7px !important;
+    gap: 3px;
+    color: var(--horae-text-muted);
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1.15;
+    border: 1px solid transparent !important;
+    border-radius: 6px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    scroll-snap-align: start;
+    transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab i {
+    color: inherit;
+    font-size: 15px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab:hover,
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab:focus-visible {
+    color: var(--horae-text);
+    border-color: var(--horae-border) !important;
+    background: var(--horae-bg-hover) !important;
+    outline: none;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 48%, transparent);
+    outline-offset: -2px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab.active {
+    color: var(--horae-primary);
+    border-color: color-mix(in srgb, var(--horae-primary) 36%, transparent) !important;
+    background: color-mix(in srgb, var(--horae-primary) 10%, transparent) !important;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tab-contents {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    max-height: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--horae-primary) 30%, transparent) transparent;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tab-contents::-webkit-scrollbar,
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tab-contents::-webkit-scrollbar-thumb,
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--horae-primary) 30%, transparent);
+    background-clip: padding-box;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab-content {
+    min-width: 0;
+    padding: 16px;
+    color: var(--horae-text);
+    overflow-wrap: anywhere;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab-content.active {
+    animation: furry-horae-content-in 160ms ease both;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-state-section,
+    .horae-settings-section,
+    .horae-subsection,
+    .horae-agenda-section,
+    .horae-rpg-config-section,
+    .horae-rpg-manual-section,
+    .horae-vector-debug-section,
+    .horae-vector-snapshot-section,
+    .horae-cardprofile-section,
+    .horae-tutorial-restart-section
+) {
+    min-width: 0;
+    border: 1px solid var(--horae-border);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--horae-text) 3.5%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--horae-text) 5%, transparent);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-item,
+    .horae-agenda-item,
+    .horae-full-item,
+    .horae-character-item,
+    .horae-npc-item,
+    .horae-relationship-item,
+    .horae-affection-item,
+    .horae-costume-item,
+    .horae-item-tag
+) {
+    min-width: 0;
+    color: var(--horae-text);
+    border-color: var(--horae-border);
+    border-radius: 7px;
+    background-color: var(--horae-bg-secondary);
+    transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-item,
+    .horae-agenda-item,
+    .horae-full-item,
+    .horae-character-item,
+    .horae-npc-item,
+    .horae-relationship-item,
+    .horae-affection-item,
+    .horae-item-tag
+):hover {
+    border-color: color-mix(in srgb, var(--horae-primary) 28%, transparent);
+    background-color: var(--horae-bg-hover);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-section-header,
+    .horae-subsection-title,
+    .horae-agenda-header,
+    .horae-timeline-header,
+    .horae-items-header,
+    .horae-rpg-section-head,
+    .horae-prompt-editor-header,
+    .horae-vector-setting-group-title,
+    .horae-cardprofile-section-title
+) {
+    min-width: 0;
+    color: var(--horae-text);
+    border-color: var(--horae-border);
+    letter-spacing: 0;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-section-header,
+    .horae-subsection-title,
+    .horae-agenda-header,
+    .horae-timeline-header,
+    .horae-items-header,
+    .horae-rpg-section-head,
+    .horae-prompt-editor-header,
+    .horae-vector-setting-group-title,
+    .horae-cardprofile-section-title
+) i {
+    color: var(--horae-primary);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-empty-hint,
+    .horae-empty-state,
+    .horae-setting-hint,
+    .horae-setting-sub-hint,
+    .horae-items-hint,
+    .horae-timeline-injection-hint,
+    .horae-about
+) {
+    color: var(--horae-text-muted);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-action-buttons,
+    .horae-data-buttons-grid,
+    .horae-table-buttons,
+    .horae-theme-buttons,
+    .horae-vector-buttons,
+    .horae-location-toolbar,
+    .horae-items-controls,
+    .horae-timeline-controls,
+    .horae-prompt-presets-actions,
+    .horae-setting-inline-controls,
+    .horae-multiselect-actions
+) {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-btn,
+    .horae-data-btn,
+    .horae-icon-btn,
+    .horae-btn-sm,
+    .horae-rpg-btn-sm,
+    .horae-vector-btn,
+    .horae-btn-add-table,
+    .horae-btn-import-table,
+    .horae-btn-reset-prompt
+) {
+    min-height: 36px;
+    margin: 0;
+    color: var(--horae-text);
+    font-family: inherit;
+    border-radius: 7px;
+    transition: color 140ms ease, border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-btn,
+    .horae-data-btn,
+    .horae-icon-btn,
+    .horae-btn-sm,
+    .horae-rpg-btn-sm,
+    .horae-vector-btn,
+    .horae-btn-add-table,
+    .horae-btn-import-table,
+    .horae-btn-reset-prompt
+):hover,
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-btn,
+    .horae-data-btn,
+    .horae-icon-btn,
+    .horae-btn-sm,
+    .horae-rpg-btn-sm,
+    .horae-vector-btn,
+    .horae-btn-add-table,
+    .horae-btn-import-table,
+    .horae-btn-reset-prompt
+):focus-visible {
+    color: var(--horae-primary);
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 48%, transparent);
+    outline-offset: 2px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-btn,
+    .horae-data-btn,
+    .horae-icon-btn,
+    .horae-btn-sm,
+    .horae-rpg-btn-sm,
+    .horae-vector-btn
+):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 48%, transparent);
+    outline-offset: 2px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-btn,
+    .horae-data-btn,
+    .horae-icon-btn,
+    .horae-btn-sm,
+    .horae-rpg-btn-sm,
+    .horae-vector-btn
+):active {
+    transform: scale(0.97);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(.horae-btn, .horae-data-btn).primary {
+    color: var(--furry-accent-contrast, #071316) !important;
+    border-color: var(--horae-primary) !important;
+    background: var(--horae-primary) !important;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+    textarea,
+    select
+) {
+    max-width: 100%;
+    min-height: 42px;
+    caret-color: var(--horae-primary);
+    outline: none;
+    color-scheme: inherit;
+    transition: border-color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel textarea {
+    resize: vertical;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(input, textarea, select):focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 42%, transparent);
+    outline-offset: 1px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(input, textarea)::placeholder {
+    color: var(--furry-subtle, #777982);
+    opacity: 1;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-search-row,
+    .horae-items-search-row
+) {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    border: 1px solid var(--horae-border);
+    border-radius: 8px;
+    background: var(--horae-bg-secondary);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-search-row,
+    .horae-items-search-row
+) .horae-search-input {
+    min-width: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-search-row,
+    .horae-items-search-row
+):focus-within {
+    border-color: var(--horae-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--horae-primary) 14%, transparent);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel input[type="checkbox"] {
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    accent-color: var(--horae-primary);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel input[type="checkbox"]:checked::after {
+    content: none !important;
+    display: none !important;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel input[type="checkbox"]:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--horae-primary) 54%, transparent);
+    outline-offset: 2px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-header,
+    .horae-items-header,
+    .horae-setting-control-row,
+    .horae-prompt-presets-bar,
+    .horae-multiselect-bar
+) {
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-timeline-controls,
+    .horae-items-controls,
+    .horae-setting-inline-controls
+) .horae-select {
+    flex: 1 1 132px;
+    min-width: 112px;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-character-list,
+    .horae-npc-list,
+    .horae-affection-list,
+    .horae-relationship-list,
+    .horae-agenda-list,
+    .horae-timeline-list,
+    .horae-items-full-list,
+    .horae-snapshot-list,
+    .horae-custom-tables-list
+) {
+    min-width: 0;
+    max-width: 100%;
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+    .horae-progress-bar,
+    .horae-vector-progress
+) {
+    overflow: hidden;
+    border: 1px solid var(--horae-border);
+    border-radius: 8px;
+    background: var(--horae-bg-secondary);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(.horae-progress-fill, .horae-vector-progress-fill) {
+    background: linear-gradient(90deg, var(--horae-primary-dark), var(--horae-primary));
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-excel-table {
+    width: 100%;
+    max-width: 100%;
+    border-color: var(--horae-border);
+}
+
+body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(.horae-excel-table, .horae-prompt-textarea) {
+    color: var(--horae-text);
+}
+
+@keyframes furry-horae-liquid-in {
+    from {
+        opacity: 0;
+        transform: translate3d(22px, 0, 0) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes furry-horae-content-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 6px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@media (max-width: 768px) {
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel {
+        top: calc(var(--furry-header-height, 68px) + 5px);
+        right: max(5px, env(safe-area-inset-right, 0px));
+        bottom: calc(var(--furry-nav-height, 72px) + max(5px, env(safe-area-inset-bottom, 0px)));
+        left: max(5px, env(safe-area-inset-left, 0px));
+        width: auto;
+        min-width: 0;
+        max-width: none;
+        border-radius: 8px;
+        transform-origin: center bottom;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel.openDrawer {
+        animation-name: furry-horae-mobile-in;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header {
+        grid-template-columns: minmax(0, 1fr) auto 40px;
+        min-height: 56px;
+        padding: 7px 8px 7px 12px;
+        gap: 7px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-title {
+        font-size: 14px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-version {
+        max-width: 58px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs {
+        min-height: 54px;
+        padding: 3px 5px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab {
+        flex-basis: 58px;
+        min-width: 58px;
+        min-height: 46px;
+        padding: 5px 6px !important;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab-content {
+        padding: 12px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+        .horae-timeline-controls,
+        .horae-items-controls,
+        .horae-setting-inline-controls,
+        .horae-action-buttons,
+        .horae-location-toolbar
+    ) {
+        width: 100%;
+    }
+}
+
+@media (max-width: 430px) {
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header {
+        grid-template-columns: minmax(0, 1fr) 40px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-version {
+        display: none;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+        .horae-btn,
+        .horae-data-btn,
+        .horae-vector-btn
+    ) {
+        max-width: 100%;
+        white-space: normal;
+    }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel {
+        top: calc(var(--furry-header-height, 68px) + 3px);
+        bottom: calc(var(--furry-nav-height, 72px) + 3px);
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header {
+        min-height: 48px;
+        padding-block: 4px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs {
+        min-height: 48px;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab {
+        min-height: 40px;
+        flex-direction: row;
+    }
+}
+
+@keyframes furry-horae-mobile-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0) scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    body.furry-shell-enabled #furry-horae-backdrop.furry-horae-backdrop {
+        background: rgb(7 9 12 / 76%);
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel {
+        background: var(--furry-surface) !important;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header,
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs {
+        background: var(--furry-surface-high);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.furry-shell-enabled #furry-horae-backdrop.furry-horae-backdrop {
+        transition: none;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel.openDrawer,
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel .horae-tab-content.active {
+        animation: none;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(
+        .horae-tab,
+        .furry-horae-close,
+        .horae-btn,
+        .horae-data-btn,
+        .horae-icon-btn,
+        .horae-btn-sm,
+        .horae-rpg-btn-sm,
+        .horae-vector-btn,
+        input,
+        textarea,
+        select
+    ) {
+        transition: none;
+    }
+}
+
+@media (forced-colors: active) {
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel,
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .drawer-header,
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel > .horae-tabs {
+        border-color: CanvasText !important;
+        background: Canvas !important;
+    }
+
+    body.furry-shell-enabled #horae_drawer_content.furry-horae-panel :is(button, input, textarea, select):focus-visible {
+        outline: 2px solid Highlight;
+        outline-offset: 2px;
+    }
+}

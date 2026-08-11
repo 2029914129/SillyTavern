@@ -1,0 +1,9 @@
+{
+  "payload_version": "newsilly-st-1.18.0-node-24.18.0-arm64-v4",
+  "st_version": "1.18.0",
+  "st_commit": "custom-snapshot",
+  "node_version": "v24.18.0",
+  "node_commit": "20da4aeadabc",
+  "node_tag": "v24.18.0",
+  "bundle_sha256": "60f445a76ab8791a1369946bd89cf636ee5b3d76ae4ea3957f3b7e95367b10d0"
+}

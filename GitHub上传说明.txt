@@ -1,0 +1,13 @@
+推荐使用 GitHub Desktop 上传，因为本目录有两千多个源码文件，网页上传不适合。
+
+1. 打开 GitHub Desktop。
+2. 选择 Add an Existing Repository from your Hard Drive。
+3. 选择“新酒馆移动端-源码上传版”文件夹。
+4. 点击 Publish repository。
+5. 仓库名建议填写 new-sillytavern-android。
+
+当前文件夹已经初始化为 main 分支并完成首个提交，不需要再整理文件。
+
+测试 APK 不在源码目录中。请在 GitHub 仓库创建 Release，然后把 APK 作为
+Release 附件上传。
+
