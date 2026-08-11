@@ -2,7 +2,7 @@
 
 <div align="center">
 
-English | [中文](readme-zh_cn.md) | [日本語](readme-ja_jp.md) 
+中文 | [English](readme-Eng_cn.md) | [日本語](readme-ja_jp.md) 
 
 [![GitHub Stars](https://img.shields.io/github/stars/SillyTavern/SillyTavern.svg)](https://github.com/SillyTavern/SillyTavern/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/SillyTavern/SillyTavern.svg)](https://github.com/SillyTavern/SillyTavern/forks)
@@ -13,63 +13,62 @@ English | [中文](readme-zh_cn.md) | [日本語](readme-ja_jp.md)
 
 ---
 
-# New Tavern
+# 新酒馆
 
-New Tavern is a community‑driven UI redesign built upon [SillyTavern](https://github.com/SillyTavern/SillyTavern). It targets users who want cleaner navigation, better mobile‑friendly operation, and a more consistent visual experience.
+新酒馆是一个基于 [SillyTavern](https://github.com/SillyTavern/SillyTavern) 的社区 UI 改版，主要面向希望获得更简洁导航、更适合移动设备操作和更统一视觉体验的用户。
 
-This project retains SillyTavern’s core features including chat, character cards, presets, world books and extension capabilities, while redesigning major pages, navigation structure, theme system and common operation workflows.
+本项目保留 SillyTavern 的核心聊天、角色卡、预设、世界书和扩展能力，并重新设计了主要页面、导航结构、主题系统与常用操作流程。
 
-> This is an unofficial community‑modified build. It has no affiliation with the official SillyTavern team and does not represent the official release nor official support channels.
+> 本项目是非官方社区修改版，与 SillyTavern 官方团队无隶属关系，也不代表官方版本或官方支持渠道。
 
-## Major Changes
+## 主要改动
 
-- Redesigned key pages for messages, character cards, presets, world books, plugins and user settings;
-- Single‑column character session list for improved character selection and chat switching experience;
-- Added liquid‑glass visual effects optimized for both dark and light modes;
-- Rebuilt bottom navigation bar with press, bounce and fluid‑swipe feedback animations;
-- Simplified rarely‑used advanced entry points for regular users, while preserving underlying compatibility;
-- Reorganized presets and interface settings, with advanced options collapsed by category;
-- Optimized chat input bar menu, tool panels, notifications and loading screens;
-- Adapted entry points and panel styling for the Horae Memory Plugin;
-- Improved experience for narrow mobile screens, safe‑area insets, soft keyboard and portrait/landscape orientations;
-- Provides mellow dark mode and light mode.
+- 重新设计消息、角色卡、预设、世界书、插件和用户设置等主要页面；
+- 使用单列角色会话列表，优化角色选择和聊天切换体验；
+- 增加适合深色与浅色模式的液态玻璃视觉效果；
+- 重做底部导航栏，并加入按压、回弹和流体滑动反馈；
+- 简化普通用户较少使用的高级入口，同时保留底层兼容能力；
+- 重新整理预设和界面设置，将高级选项按类别折叠；
+- 优化聊天输入栏菜单、工具面板、通知和加载页面；
+- 适配 Horae 时光记忆插件的入口与面板样式；
+- 改善手机窄屏、安全区域、软键盘和横竖屏体验；
+- 提供柔和的黑夜模式和白天模式。
 
-## Current Status
+## 当前状态
 
-The current build is developed based on SillyTavern `1.18.0`. The project is still under ongoing testing. Some third‑party extensions may suffer compatibility issues due to their own updates or interface structural changes.
+当前版本基于 SillyTavern `1.18.0` 开发。项目仍处于持续测试阶段，部分第三方扩展可能因自身更新或界面结构变化而存在兼容问题。
 
-Please back up your character cards, chat logs, presets, world books, Persona profiles and plugin data before using any release build.
+发布版本前请自行备份角色卡、聊天记录、预设、世界书、Persona 和插件数据。
 
-## Installation & Launch
+## 安装与启动
 
 ### Windows
 
-1. Install the required Node.js version and Git.
-2. Clone this repository.
-3. Run using the provided startup script.
-4. Once the service starts, open the local web page in your browser.
+1. 安装项目要求的 Node.js 版本和 Git。
+2. 克隆本仓库。
+3. 按照项目提供的启动脚本运行。
+4. 服务启动完成后，在浏览器中打开本地页面。
 
-For detailed environment requirements and commands, refer to the [Installation Guide](docs/installation.md).
+具体环境要求和命令请参阅 [安装文档](docs/installation.md)。
 
-## Relationship With the Official Build
+## 与官方版本的关系
 
-This project is modified from SillyTavern and keeps its original license and copyright notices. For official SillyTavern documentation, issue reports and release notes, please visit the official repository.
+本项目修改自 SillyTavern，并保留其原有许可证和版权声明。SillyTavern 的官方文档、问题反馈和更新说明请访问官方仓库。
 
-Please submit issues related to this UI redesign to this repository’s Issues tab. Do not report bugs caused by this modification directly to the official SillyTavern maintainers.
+本仓库中的改版问题请提交到本项目的 Issues，不要将改版产生的问题直接反馈给 SillyTavern 官方维护者。
 
-## Data & Privacy
+## 数据与隐私
 
-No user API keys, chat histories, character data or private configurations are distributed within this repository. Users shall securely keep their own service keys and back up data before upgrading or migrating.
+本项目不会在仓库中提供任何用户 API Key、聊天记录、角色数据或私人配置。使用者应妥善保管自己的服务密钥，并在升级或迁移前备份数据。
 
-## Third‑Party Extensions
+## 第三方扩展
 
-Extensions including Horae, Tavern Helper, LittleWhiteBox are maintained by their respective authors under their own licenses. Descriptions of these extensions in this project only indicate compatibility adaptations, and do not imply ownership or relicensing of such extensions.
+Horae、酒馆助手、LittleWhiteBox 等扩展由各自作者维护，并适用各自的许可证。本项目对相关扩展的说明仅代表兼容适配情况，不代表拥有或重新许可这些扩展。
 
-## License
+## 许可证
 
-This project is a derivative work of SillyTavern, released under the `LICENSE` file contained in this repository. Third‑party dependencies, extensions, fonts, icons and other assets may be governed by their respective licenses; please also check their corresponding copyright notices.
+本项目是 SillyTavern 的衍生版本，按照仓库中的 `LICENSE` 文件发布。第三方依赖、扩展、字体、图标和其他资源可能适用各自的许可证，请同时查阅相关版权说明。
 
-## Acknowledgements
+## 致谢
 
-Gratitude to the official SillyTavern team, community contributors and relevant extension authors for their open‑source projects and ecosystem support.
-[discord-shield-badge]: https://img.shields.io/discord/1100685673633153084?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=for-the-badge
+感谢 SillyTavern 官方团队、社区贡献者以及相关扩展作者提供的开源项目和生态支持。
