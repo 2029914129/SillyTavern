@@ -1,7 +1,5 @@
 <a name="readme-top"></a>
 
-![][cover]
-
 <div align="center">
 
 English | [中文](readme-zh_cn.md) | [日本語](readme-ja_jp.md) 
