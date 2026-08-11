@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SillyTavern</title>
+    <title>新酒馆</title>
     <base href="/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
@@ -10,18 +10,417 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="darkreader-lock">
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#333">
+    <meta name="theme-color" content="#151618">
+    <script src="scripts/furry-theme.js"></script>
     <style>
         /* Put critical CSS here. The rest should go in stylesheets. */
+        :root {
+            --furry-bg: #151618;
+            --furry-surface: #1d1e22;
+            --furry-border: #34363d;
+            --furry-border-soft: #292b31;
+            --furry-text: #f4f4f6;
+            --furry-muted: #aaaab1;
+            --furry-cyan: #77eeff;
+            --furry-glass-bg: rgb(29 30 34 / 76%);
+            --furry-glass-bg-strong: rgb(29 30 34 / 92%);
+            --furry-glass-highlight: rgb(255 255 255 / 8%);
+            --furry-glass-shadow: 0 18px 60px rgb(0 0 0 / 36%);
+            --furry-glass-blur: 16px;
+            --furry-header-height: 68px;
+            --furry-nav-height: 72px;
+            --furry-content-width: 880px;
+        }
+
+        :root[data-furry-theme="light"] {
+            --furry-bg: #eef1f4;
+            --furry-surface: #f7f8fa;
+            --furry-border: rgb(39 55 68 / 18%);
+            --furry-border-soft: rgb(39 55 68 / 10%);
+            --furry-text: #222a31;
+            --furry-muted: #5f6b76;
+            --furry-cyan: #167f8c;
+            --furry-glass-bg: rgb(246 248 250 / 74%);
+            --furry-glass-bg-strong: rgb(244 247 249 / 89%);
+            --furry-glass-highlight: rgb(255 255 255 / 72%);
+            --furry-glass-shadow: 0 18px 54px rgb(48 61 73 / 16%);
+        }
+
+        html,
         body {
-            background-color: rgb(36, 36, 37);
+            margin: 0;
+            width: 100%;
+            min-width: 0;
+            min-height: 100%;
+            background-color: var(--furry-bg);
+        }
+
+        body.furry-shell-enabled {
+            overflow-x: hidden;
+            overscroll-behavior-x: none;
+        }
+
+        body.furry-shell-enabled #preloader,
+        body.furry-shell-enabled #top-bar,
+        body.furry-shell-home #sheld {
+            display: none !important;
+        }
+
+        #furry-shell-bootstrap {
+            position: fixed;
+            inset: 0;
+            z-index: 6200;
+            box-sizing: border-box;
+            overflow: hidden;
+            color: var(--furry-text);
+            background: var(--furry-bg);
+            font-family: "Noto Sans", "Microsoft YaHei", sans-serif;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 120ms ease, visibility 120ms ease;
+        }
+
+        #furry-shell-bootstrap.is-leaving {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        body.furry-shell-booting #furry-shell {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #furry-shell-bootstrap *,
+        #furry-shell-bootstrap *::before,
+        #furry-shell-bootstrap *::after {
+            box-sizing: border-box;
+        }
+
+        .furry-bootstrap-surface {
+            position: absolute;
+            inset: 0 0 calc(var(--furry-nav-height) + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            flex-direction: column;
+            background: var(--furry-bg);
+        }
+
+        .furry-bootstrap-header {
+            display: flex;
+            flex: 0 0 var(--furry-header-height);
+            align-items: center;
+            justify-content: space-between;
+            width: min(100%, var(--furry-content-width));
+            margin: 0 auto;
+            padding: 10px 18px 8px;
+            border-bottom: 1px solid var(--furry-border-soft);
+            background: var(--furry-glass-bg-strong);
+            box-shadow: inset 0 -1px 0 var(--furry-glass-highlight);
+            backdrop-filter: blur(var(--furry-glass-blur)) saturate(125%);
+            -webkit-backdrop-filter: blur(var(--furry-glass-blur)) saturate(125%);
+        }
+
+        .furry-bootstrap-eyebrow {
+            display: block;
+            margin-bottom: 2px;
+            color: var(--furry-cyan);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .furry-bootstrap-header h1 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.25;
+        }
+
+        .furry-bootstrap-header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .furry-bootstrap-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--furry-border);
+            border-radius: 8px;
+            background: var(--furry-surface);
+        }
+
+        .furry-bootstrap-icon:last-child {
+            border-color: var(--furry-cyan);
+            background: var(--furry-cyan);
+        }
+
+        .furry-bootstrap-main {
+            flex: 1 1 auto;
+            width: min(100%, var(--furry-content-width));
+            min-height: 0;
+            margin: 0 auto;
+            padding: 4px 18px 34px;
+        }
+
+        .furry-bootstrap-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 2px 0 14px;
+        }
+
+        .furry-bootstrap-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(64px, 1fr));
+            min-height: 38px;
+            padding: 3px;
+            border: 1px solid var(--furry-border);
+            border-radius: 8px;
+            background: var(--furry-surface);
+        }
+
+        .furry-bootstrap-tabs span {
+            display: grid;
+            place-items: center;
+            padding: 6px 13px;
+            color: var(--furry-muted);
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .furry-bootstrap-tabs span:first-child {
+            color: #071316;
+            border-radius: 6px;
+            background: var(--furry-cyan);
+        }
+
+        .furry-bootstrap-status {
+            color: var(--furry-muted);
+            font-size: 12px;
+        }
+
+        .furry-bootstrap-recovery {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 3;
+            display: flex;
+            width: min(420px, calc(100% - 32px));
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 9px;
+            color: var(--furry-text);
+            text-align: center;
+            border: 1px solid var(--furry-border);
+            border-radius: 8px;
+            background: var(--furry-glass-bg-strong);
+            box-shadow: var(--furry-glass-shadow);
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+            -webkit-backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+        }
+
+        .furry-bootstrap-recovery[hidden] {
+            display: none;
+        }
+
+        .furry-bootstrap-recovery strong {
+            font-size: 17px;
+        }
+
+        .furry-bootstrap-recovery span {
+            color: var(--furry-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .furry-bootstrap-recovery-actions {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .furry-bootstrap-recovery button {
+            min-height: 38px;
+            padding: 8px 13px;
+            color: var(--furry-text);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid var(--furry-border);
+            border-radius: 7px;
+            background: #292b31;
+            cursor: pointer;
+        }
+
+        .furry-bootstrap-recovery button:first-child {
+            color: #071316;
+            border-color: var(--furry-cyan);
+            background: var(--furry-cyan);
+        }
+
+        .furry-bootstrap-list {
+            border-top: 1px solid var(--furry-border-soft);
+        }
+
+        .furry-bootstrap-row {
+            display: grid;
+            grid-template-columns: 56px minmax(0, 1fr) 52px;
+            align-items: center;
+            gap: 12px;
+            min-height: 84px;
+            padding: 12px 4px;
+            border-bottom: 1px solid var(--furry-border-soft);
+        }
+
+        .furry-bootstrap-avatar,
+        .furry-bootstrap-line,
+        .furry-bootstrap-time {
+            background: #25272c;
+            animation: furry-bootstrap-pulse 1.4s ease-in-out infinite alternate;
+        }
+
+        .furry-bootstrap-avatar {
+            width: 56px;
+            height: 56px;
+            border: 1px solid var(--furry-border);
+            border-radius: 50%;
+        }
+
+        .furry-bootstrap-copy {
+            display: grid;
+            gap: 8px;
+        }
+
+        .furry-bootstrap-line {
+            height: 11px;
+            border-radius: 4px;
+        }
+
+        .furry-bootstrap-line:first-child {
+            width: min(180px, 62%);
+            background: #34363d;
+        }
+
+        .furry-bootstrap-line:last-child {
+            width: min(360px, 88%);
+        }
+
+        .furry-bootstrap-time {
+            width: 42px;
+            height: 9px;
+            justify-self: end;
+            border-radius: 4px;
+        }
+
+        .furry-bootstrap-row:nth-child(2) {
+            opacity: 0.82;
+        }
+
+        .furry-bootstrap-row:nth-child(3) {
+            opacity: 0.64;
+        }
+
+        .furry-bootstrap-nav {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            min-height: calc(var(--furry-nav-height) + env(safe-area-inset-bottom, 0px));
+            padding: 5px 8px env(safe-area-inset-bottom, 0px);
+            border-top: 1px solid var(--furry-border);
+            background: var(--furry-glass-bg-strong);
+            box-shadow: 0 -8px 24px rgb(0 0 0 / 18%), inset 0 1px 0 var(--furry-glass-highlight);
+            backdrop-filter: blur(var(--furry-glass-blur)) saturate(125%);
+            -webkit-backdrop-filter: blur(var(--furry-glass-blur)) saturate(125%);
+        }
+
+        .furry-bootstrap-nav span {
+            display: grid;
+            place-items: center;
+            min-width: 0;
+            color: var(--furry-muted);
+            font-size: 11px;
+            font-weight: 650;
+        }
+
+        .furry-bootstrap-nav span:first-child {
+            color: var(--furry-cyan);
+        }
+
+        @keyframes furry-bootstrap-pulse {
+            from { opacity: 0.58; }
+            to { opacity: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #furry-shell-bootstrap,
+            .furry-bootstrap-avatar,
+            .furry-bootstrap-line,
+            .furry-bootstrap-time {
+                animation: none;
+                transition-duration: 1ms;
+            }
+        }
+
+        @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            .furry-bootstrap-header,
+            .furry-bootstrap-nav,
+            .furry-bootstrap-recovery {
+                background: #1d1e22;
+            }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --furry-header-height: 60px;
+                --furry-nav-height: 68px;
+            }
+
+            .furry-bootstrap-header {
+                padding: 8px 12px 6px;
+            }
+
+            .furry-bootstrap-header h1 {
+                font-size: 19px;
+            }
+
+            .furry-bootstrap-main {
+                padding: 4px 12px 22px;
+            }
+
+            .furry-bootstrap-status {
+                display: none;
+            }
+
+            .furry-bootstrap-tabs {
+                width: 100%;
+            }
+
+            .furry-bootstrap-row {
+                grid-template-columns: 50px minmax(0, 1fr) 38px;
+                gap: 10px;
+            }
+
+            .furry-bootstrap-avatar {
+                width: 48px;
+                height: 48px;
+            }
         }
     </style>
     <link rel="preload" as="style" href="style.css">
     <link rel="manifest" crossorigin="use-credentials" href="manifest.json">
     <link href="webfonts/NotoSans/stylesheet.css" rel="stylesheet">
     <link href="webfonts/NotoSansMono/stylesheet.css" rel="stylesheet">
+    <link rel="preload" href="webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
     <link href="css/fontawesome.min.css" rel="stylesheet">
+    <link href="css/regular.min.css" rel="stylesheet">
     <link href="css/solid.min.css" rel="stylesheet">
     <link href="css/brands.min.css" rel="stylesheet">
     <link href="css/jquery-ui.min.css" rel="stylesheet">
@@ -44,12 +443,95 @@
     <link rel="stylesheet" type="text/css" href="css/mobile-styles.css">
     <link rel="stylesheet" type="text/css" href="css/macros.css">
     <link rel="stylesheet" type="text/css" href="css/user.css">
+    <link rel="stylesheet" type="text/css" href="css/furry-shell.css">
+    <link rel="stylesheet" type="text/css" href="css/furry-native.css">
+    <link rel="stylesheet" type="text/css" href="css/furry-theme.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- Scripts are loaded at the end of the body to improve page load speed -->
 </head>
 
-<body class="no-blur">
+<body class="no-blur furry-shell-enabled furry-shell-home furry-shell-booting">
     <div id="preloader"></div>
+    <div id="furry-shell-bootstrap" role="status" aria-live="polite" aria-busy="true" aria-label="正在加载新酒馆">
+        <div class="furry-bootstrap-surface">
+            <header class="furry-bootstrap-header">
+                <div>
+                    <span class="furry-bootstrap-eyebrow">NEW TAVERN</span>
+                    <h1>我的角色聊天</h1>
+                </div>
+                <div class="furry-bootstrap-header-actions" aria-hidden="true">
+                    <span class="furry-bootstrap-icon"></span>
+                    <span class="furry-bootstrap-icon"></span>
+                </div>
+            </header>
+            <main class="furry-bootstrap-main">
+                <div class="furry-bootstrap-toolbar">
+                    <div class="furry-bootstrap-tabs" aria-hidden="true">
+                        <span>全部</span>
+                        <span>未读</span>
+                        <span>生成中</span>
+                    </div>
+                    <span class="furry-bootstrap-status">正在载入角色与故事线</span>
+                </div>
+                <div class="furry-bootstrap-list" aria-hidden="true">
+                    <div class="furry-bootstrap-row">
+                        <span class="furry-bootstrap-avatar"></span>
+                        <span class="furry-bootstrap-copy"><span class="furry-bootstrap-line"></span><span class="furry-bootstrap-line"></span></span>
+                        <span class="furry-bootstrap-time"></span>
+                    </div>
+                    <div class="furry-bootstrap-row">
+                        <span class="furry-bootstrap-avatar"></span>
+                        <span class="furry-bootstrap-copy"><span class="furry-bootstrap-line"></span><span class="furry-bootstrap-line"></span></span>
+                        <span class="furry-bootstrap-time"></span>
+                    </div>
+                    <div class="furry-bootstrap-row">
+                        <span class="furry-bootstrap-avatar"></span>
+                        <span class="furry-bootstrap-copy"><span class="furry-bootstrap-line"></span><span class="furry-bootstrap-line"></span></span>
+                        <span class="furry-bootstrap-time"></span>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <nav class="furry-bootstrap-nav" aria-hidden="true">
+            <span>消息</span>
+            <span>角色卡</span>
+            <span>预设</span>
+            <span>世界书</span>
+            <span>插件</span>
+            <span>我的</span>
+        </nav>
+        <div id="furry-bootstrap-recovery" class="furry-bootstrap-recovery" role="alert" hidden>
+            <strong>加载没有完成</strong>
+            <span>可以重新加载，或临时打开兼容界面继续排查。</span>
+            <div class="furry-bootstrap-recovery-actions">
+                <button id="furry-bootstrap-reload" type="button">重新加载</button>
+                <button id="furry-bootstrap-compat" type="button">兼容界面</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (() => {
+            const bootstrap = document.getElementById('furry-shell-bootstrap');
+            const recovery = document.getElementById('furry-bootstrap-recovery');
+            window.__newTavernBootstrapTimer = window.setTimeout(() => {
+                if (!bootstrap?.isConnected || !document.body.classList.contains('furry-shell-booting')) {
+                    return;
+                }
+
+                bootstrap.setAttribute('aria-busy', 'false');
+                document.querySelector('.furry-bootstrap-status').textContent = '加载未完成';
+                recovery.hidden = false;
+            }, 30000);
+
+            document.getElementById('furry-bootstrap-reload').addEventListener('click', () => window.location.reload());
+            document.getElementById('furry-bootstrap-compat').addEventListener('click', () => {
+                window.clearTimeout(window.__newTavernBootstrapTimer);
+                document.body.classList.remove('furry-shell-enabled', 'furry-shell-home', 'furry-shell-booting');
+                document.getElementById('preloader')?.remove();
+                bootstrap.remove();
+            });
+        })();
+    </script>
     <div id="bg1"></div>
     <div id="character_context_menu" class="hidden">
         <ul>
@@ -7409,8 +7891,8 @@
                                 <div title="Toggle media display style" class="mes_button mes_media_list fa-solid fa-table-cells-large" data-i18n="[title]Toggle media display style"></div>
                                 <div title="Embed file or image" class="mes_button mes_embed fa-solid fa-paperclip" data-i18n="[title]Embed file or image"></div>
                                 <div title="Jump to swipe history" class="mes_button mes_swipe_picker fa-solid fa-bookmark" data-i18n="[title]Jump to swipe history" style="display: none;"></div>
-                                <div title="Create checkpoint" class="mes_button mes_create_bookmark fa-regular fa-solid fa-flag-checkered" data-i18n="[title]Create checkpoint"></div>
-                                <div title="Create branch" class="mes_button mes_create_branch fa-regular fa-code-branch" data-i18n="[title]Create Branch"></div>
+                                <div title="Create checkpoint" class="mes_button mes_create_bookmark fa-solid fa-flag-checkered" data-i18n="[title]Create checkpoint"></div>
+                                <div title="Create branch" class="mes_button mes_create_branch fa-solid fa-code-branch" data-i18n="[title]Create Branch"></div>
                                 <div title="Copy" class="mes_button mes_copy fa-solid fa-copy " data-i18n="[title]Copy"></div>
                             </div>
                             <div data-tooltip="Click to open checkpoint chat&#10;Shift+Click to replace the existing checkpoint with a new one" class="mes_button mes_bookmark fa-solid fa-flag" data-i18n="[data-tooltip]Open checkpoint chat&#10;Shift+Click to replace the existing checkpoint with a new one"></div>
@@ -8203,6 +8685,8 @@
     <script type="module" src="lib/eventemitter.js"></script>
     <script type="module" src="scripts/i18n.js"></script>
     <script type="module" src="script.js"></script>
+    <script type="module" src="scripts/furry-shell.js"></script>
+    <script type="module" src="scripts/furry-native.js"></script>
     <script>
         window.addEventListener('load', (event) => {
             const documentHeight = () => {

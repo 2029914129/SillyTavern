@@ -104,9 +104,11 @@ requestProxy:
     - localhost
     - 127.0.0.1
 # Enable multi-user mode
-enableUserAccounts: false
+enableUserAccounts: true
 # Enable discreet login mode: hides user list on the login screen
-enableDiscreetLogin: false
+enableDiscreetLogin: true
+# Allow visitors to create an account with a username and password
+enableUserRegistration: true
 # If `basicAuthMode` and this are enabled then
 # the username and passwords for basic auth are the same as those
 # for the individual accounts
@@ -198,6 +200,8 @@ rateLimiting:
   accountsLoginMaxAttempts: 5
   # Set the maximum number of allowed failed account recovery attempts before rate limiting is applied. Set to 0 to disable rate limiting for account recovery.
   accountsRecoverMaxAttempts: 5
+  # Set the maximum number of registration attempts allowed per IP address per hour. Set to 0 to disable registration rate limiting.
+  accountsRegistrationMaxAttempts: 5
 # Set to true to enable support for real IPs in certain request headers for features like IP whitelisting, rate limiting and access logging.
 # Only change if you are sure that you use a correctly configured reverse proxy, otherwise this may lead to IP spoofing.
 forwardedHeaders:

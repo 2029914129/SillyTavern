@@ -107,6 +107,15 @@ app.use(helmet({
 app.use(compression());
 app.use(responseTime());
 
+app.use('/api/workspace', bodyParser.json({ limit: '2mb' }));
+app.use('/api/workspace', bodyParser.urlencoded({ extended: true, limit: '2mb' }));
+app.use('/api/workspace', (error, _request, response, next) => {
+    if (error?.type === 'entity.too.large') {
+        return response.status(413).json({ error: 'Workspace state is too large' });
+    }
+
+    return next(error);
+});
 app.use(bodyParser.json({ limit: '500mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }));
 

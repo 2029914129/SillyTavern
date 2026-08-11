@@ -1,10 +1,10 @@
 {
-    "name": "SillyTavern",
-    "short_name": "SillyTavern",
+    "name": "新酒馆",
+    "short_name": "新酒馆",
     "start_url": "/",
     "display": "standalone",
-    "theme_color": "#202124",
-    "background_color": "#202124",
+    "theme_color": "#151618",
+    "background_color": "#151618",
     "icons": [
         {
             "src": "img/apple-icon-57x57.png",

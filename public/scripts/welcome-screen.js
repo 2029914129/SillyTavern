@@ -922,12 +922,18 @@ export function assignCharacterAsAssistant(characterId) {
     toastr.success(t`Set ${character.name} as your assistant.`);
 }
 
-export function initWelcomeScreen() {
+/**
+ * Initializes welcome-screen integrations.
+ * @param {{autoOpen?: boolean}} options Initialization options.
+ */
+export function initWelcomeScreen({ autoOpen = true } = {}) {
     PinnedChatsManager.init();
 
-    const events = [event_types.CHAT_CHANGED, event_types.APP_READY];
-    for (const event of events) {
-        eventSource.makeFirst(event, openWelcomeScreen);
+    if (autoOpen) {
+        const events = [event_types.CHAT_CHANGED, event_types.APP_READY];
+        for (const event of events) {
+            eventSource.makeFirst(event, openWelcomeScreen);
+        }
     }
 
     eventSource.on(event_types.CHARACTER_MANAGEMENT_DROPDOWN, (target) => {

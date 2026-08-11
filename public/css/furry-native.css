@@ -1,0 +1,1236 @@
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) {
+    padding: 0 !important;
+    color: var(--furry-text) !important;
+    border-color: var(--furry-border) !important;
+    background-color: var(--furry-glass-bg-strong) !important;
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow), var(--furry-glass-shadow) !important;
+    backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+    -webkit-backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+    scrollbar-color: var(--furry-border) transparent;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) > .drag-grabber {
+    display: none !important;
+}
+
+.furry-native-panel-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: 40px 38px minmax(0, 1fr) 40px;
+    align-items: center;
+    min-height: 66px;
+    padding: 8px 12px;
+    gap: 8px;
+    border-bottom: 1px solid var(--furry-glass-edge, var(--furry-border-soft));
+    background-color: var(--furry-glass-bg-strong);
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow, inset 0 -1px 0 var(--furry-glass-highlight));
+    backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+    -webkit-backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+}
+
+.furry-native-panel-header.is-root {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding-inline: 16px;
+}
+
+.furry-native-panel-back,
+.furry-native-panel-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin: 0;
+    padding: 0;
+    color: var(--furry-muted);
+    font: inherit;
+    font-size: 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    transition: color var(--furry-liquid-duration-fast, 150ms) ease,
+        border-color var(--furry-liquid-duration-fast, 150ms) ease,
+        background-color var(--furry-liquid-duration-fast, 150ms) ease,
+        transform var(--furry-liquid-duration, 240ms) var(--furry-liquid-spring, ease-out);
+}
+
+.furry-native-panel-back:active,
+.furry-native-panel-close:active {
+    transform: scale(var(--furry-liquid-press-scale, 0.972));
+}
+
+.furry-native-panel-back:hover,
+.furry-native-panel-back:focus-visible,
+.furry-native-panel-close:hover,
+.furry-native-panel-close:focus-visible {
+    color: var(--furry-cyan);
+    border-color: var(--furry-border);
+    background: var(--furry-surface-high);
+    outline: none;
+}
+
+.furry-native-panel-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--furry-accent-contrast, #071316);
+    font-size: 15px;
+    border-radius: 8px;
+    background: var(--furry-cyan);
+}
+
+.furry-native-panel-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.furry-native-panel-copy strong {
+    overflow: hidden;
+    color: var(--furry-text);
+    font-size: 16px;
+    font-weight: 750;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.furry-native-panel-copy span {
+    overflow: hidden;
+    color: var(--furry-muted);
+    font-size: 11px;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) > .scrollableInner,
+body.furry-shell-enabled #WorldInfo.openDrawer > #wi-holder,
+body.furry-shell-enabled #rm_extensions_block.openDrawer > .extensions_block,
+body.furry-shell-enabled #PersonaManagement.openDrawer > .flex-container,
+body.furry-shell-enabled #user-settings-block.openDrawer > #user-settings-block-content,
+body.furry-shell-enabled #rm_api_block.openDrawer > .flex-container {
+    padding: 14px 16px 28px !important;
+}
+
+body.furry-shell-enabled #AdvancedFormatting.openDrawer {
+    padding: 0 16px 28px !important;
+}
+
+body.furry-shell-enabled #AdvancedFormatting.openDrawer > .furry-native-panel-header {
+    margin: 0 -16px 14px;
+}
+
+body.furry-shell-enabled #Backgrounds.openDrawer > .furry-native-panel-header {
+    flex: 0 0 auto;
+}
+
+body.furry-shell-enabled #right-nav-panel.openDrawer > #CharListButtonAndHotSwaps,
+body.furry-shell-enabled #right-nav-panel.openDrawer > #rm_PinAndTabs {
+    margin: 0 !important;
+    padding: 10px 16px !important;
+    border-bottom: 1px solid var(--furry-border-soft);
+    background: var(--furry-surface);
+}
+
+body.furry-shell-enabled #WorldInfo.openDrawer > .flex-container:first-of-type,
+body.furry-shell-enabled #PersonaManagement.openDrawer > .flex-container:first-of-type,
+body.furry-shell-enabled #rm_extensions_block.openDrawer > .extensions_block > .flex-container:first-child {
+    margin: 0 !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--furry-border-soft);
+    background: var(--furry-surface);
+}
+
+body.furry-shell-enabled #rm_api_block.openDrawer > #title_api {
+    display: none;
+}
+
+body.furry-shell-enabled #rm_api_block.openDrawer #main-API-selector-block {
+    position: sticky;
+    top: 66px;
+    z-index: 15;
+    margin: -14px -16px 14px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--furry-border-soft);
+    background: var(--furry-glass-bg-strong);
+    box-shadow: inset 0 -1px 0 var(--furry-glass-highlight);
+    backdrop-filter: blur(12px) saturate(115%);
+    -webkit-backdrop-filter: blur(12px) saturate(115%);
+}
+
+body.furry-shell-enabled #rm_api_block.openDrawer #main_api {
+    min-height: 44px;
+    font-weight: 700;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h2,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h3,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h4,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h5 {
+    color: var(--furry-text);
+    letter-spacing: 0;
+    text-shadow: none;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h3 {
+    font-size: 16px;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h4,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) h5 {
+    font-size: 13px;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) small,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .toggle-description,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .text_muted {
+    color: var(--furry-muted) !important;
+    text-shadow: none;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) a {
+    color: var(--furry-cyan);
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) textarea,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) select,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .text_pole {
+    min-height: 42px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 8px 11px;
+    color: var(--furry-text) !important;
+    font: inherit;
+    font-size: 13px;
+    line-height: 1.4;
+    border: 1px solid var(--furry-border) !important;
+    border-radius: 8px !important;
+    background: var(--furry-surface-high) !important;
+    box-shadow: none !important;
+    outline: none;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) textarea {
+    min-height: 86px;
+    resize: vertical;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input:focus,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) textarea:focus,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) select:focus {
+    border-color: var(--furry-cyan) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--furry-cyan) 18%, transparent) !important;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input::placeholder,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) textarea::placeholder {
+    color: var(--furry-subtle);
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input[type="checkbox"],
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input[type="radio"],
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) input[type="range"] {
+    accent-color: var(--furry-cyan);
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .right_menu_button,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) button:not(.furry-native-panel-back):not(.furry-native-panel-close) {
+    min-height: 36px;
+    margin: 2px;
+    padding: 7px 10px;
+    color: var(--furry-text);
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.2;
+    border: 1px solid var(--furry-border) !important;
+    border-radius: 7px !important;
+    background: var(--furry-surface-high) !important;
+    box-shadow: none !important;
+    filter: none;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button.fa-solid,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .right_menu_button.fa-solid,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .fa-solid,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .fas {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button.fa-regular,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .right_menu_button.fa-regular,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .fa-regular,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .far {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 400;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button.fa-brands,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .right_menu_button.fa-brands,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .fa-brands,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .fab {
+    font-family: "Font Awesome 6 Brands";
+    font-style: normal;
+    font-weight: 400;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button:hover,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .right_menu_button:hover,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) button:not(.furry-native-panel-back):not(.furry-native-panel-close):hover {
+    color: var(--furry-cyan);
+    border-color: color-mix(in srgb, var(--furry-cyan) 55%, transparent) !important;
+    background: var(--furry-surface-high) !important;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .menu_button.red_button,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .red_button,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .danger {
+    color: color-mix(in srgb, var(--furry-rose) 18%, var(--furry-text)) !important;
+    border-color: color-mix(in srgb, var(--furry-rose) 40%, transparent) !important;
+    background: color-mix(in srgb, var(--furry-rose) 18%, var(--furry-surface-high)) !important;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .standoutHeader,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .settingsSectionWrap,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .inline-drawer-header,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) #user-settings-block h4 {
+    margin: 0;
+    padding: 10px 8px;
+    color: var(--furry-text);
+    border: 0;
+    border-bottom: 1px solid var(--furry-border-soft);
+    border-radius: 0 !important;
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .inline-drawer {
+    margin: 4px 0;
+    overflow: hidden;
+    border: 1px solid var(--furry-border-soft);
+    border-radius: 8px;
+    background: var(--furry-surface);
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .inline-drawer-content {
+    padding: 10px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: var(--furry-surface) !important;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .settingsSectionWrap,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .range-block {
+    margin: 0 0 10px;
+    padding: 10px 0;
+    border: 0;
+    border-bottom: 1px solid var(--furry-border-soft);
+    border-radius: 0 !important;
+    background: transparent;
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .checkbox_label {
+    min-height: 34px;
+    padding: 5px 2px;
+    gap: 8px;
+    color: var(--furry-text);
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .neutral_warning,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .warning,
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .info-block {
+    margin: 8px 0;
+    padding: 10px 12px;
+    color: var(--furry-muted);
+    border: 1px solid color-mix(in srgb, var(--furry-blue) 30%, transparent);
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--furry-blue) 10%, var(--furry-surface));
+}
+
+body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .online_status {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    margin: 10px 0;
+    padding: 8px 10px;
+    gap: 8px;
+    border: 1px solid var(--furry-border-soft);
+    border-radius: 8px;
+    background: var(--furry-surface);
+}
+
+body.furry-shell-enabled #rm_extensions_block.openDrawer .extensions_block {
+    align-content: flex-start;
+    gap: 12px;
+}
+
+body.furry-shell-enabled #rm_extensions_block.openDrawer #extensions_settings,
+body.furry-shell-enabled #rm_extensions_block.openDrawer #extensions_settings2 {
+    width: calc(50% - 6px) !important;
+    padding: 0;
+}
+
+body.furry-shell-enabled #rm_extensions_block.openDrawer .extension_container:empty {
+    display: none;
+}
+
+body.furry-shell-enabled #PersonaManagement.openDrawer #persona-management-block {
+    align-items: stretch;
+    gap: 12px;
+}
+
+body.furry-shell-enabled #PersonaManagement.openDrawer .persona_management_left_column,
+body.furry-shell-enabled #PersonaManagement.openDrawer .persona_management_right_column {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--furry-border-soft);
+    border-radius: 8px;
+    background: var(--furry-surface);
+}
+
+body.furry-shell-enabled #right-nav-panel.openDrawer .character_select,
+body.furry-shell-enabled .popup[open] .character_select,
+body.furry-shell-enabled .world_entry {
+    margin-bottom: 8px;
+    padding: 10px !important;
+    border: 1px solid var(--furry-border-soft) !important;
+    border-radius: 8px !important;
+    background: var(--furry-surface) !important;
+    box-shadow: none !important;
+}
+
+body.furry-shell-enabled #right-nav-panel.openDrawer .character_select:hover,
+body.furry-shell-enabled .world_entry:hover {
+    border-color: rgb(119 238 255 / 38%) !important;
+    background: var(--furry-surface-high) !important;
+}
+
+body.furry-shell-enabled .popup[open] {
+    padding: 0;
+    color: var(--furry-text);
+    border: 1px solid var(--furry-border);
+    border-radius: 8px;
+    background: var(--furry-glass-bg-strong);
+    box-shadow: var(--furry-glass-shadow);
+    backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+}
+
+body.furry-shell-enabled .popup.furry-action-loader-popup[open] {
+    display: grid;
+    width: min(360px, calc(100% - 40px));
+    min-height: 180px;
+    padding: 0;
+    background: var(--furry-glass-bg-strong);
+    box-shadow: var(--furry-glass-shadow);
+}
+
+body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-body,
+body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-content {
+    display: grid;
+    place-items: center;
+    min-height: 180px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+
+body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-controls,
+body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-button-close {
+    display: none !important;
+}
+
+body.furry-shell-enabled .popup[open]::backdrop {
+    background: rgb(7 8 10 / 76%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+body.furry-shell-enabled .popup[open] .popup-body {
+    padding: 0;
+}
+
+body.furry-shell-enabled .popup[open] .popup-content {
+    margin: 0;
+    padding: 18px;
+    color: var(--furry-text);
+}
+
+body.furry-shell-enabled .popup[open] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+body.furry-shell-enabled .popup[open] textarea,
+body.furry-shell-enabled .popup[open] select,
+body.furry-shell-enabled #dialogue_popup input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+body.furry-shell-enabled #dialogue_popup textarea,
+body.furry-shell-enabled #dialogue_popup select {
+    min-height: 42px;
+    padding: 8px 11px;
+    color: var(--furry-text) !important;
+    font: inherit;
+    border: 1px solid var(--furry-border) !important;
+    border-radius: 8px !important;
+    background: var(--furry-surface-high) !important;
+    box-shadow: none !important;
+    outline: none;
+}
+
+body.furry-shell-enabled .popup[open] textarea,
+body.furry-shell-enabled #dialogue_popup textarea {
+    min-height: 86px;
+}
+
+body.furry-shell-enabled .popup[open] input:focus,
+body.furry-shell-enabled .popup[open] textarea:focus,
+body.furry-shell-enabled .popup[open] select:focus,
+body.furry-shell-enabled #dialogue_popup input:focus,
+body.furry-shell-enabled #dialogue_popup textarea:focus,
+body.furry-shell-enabled #dialogue_popup select:focus {
+    border-color: var(--furry-cyan) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--furry-cyan) 18%, transparent) !important;
+}
+
+body.furry-shell-enabled .popup[open] .menu_button,
+body.furry-shell-enabled #dialogue_popup .menu_button {
+    min-height: 38px;
+    padding: 8px 13px;
+    color: var(--furry-text);
+    border: 1px solid var(--furry-border) !important;
+    border-radius: 7px !important;
+    background: var(--furry-surface-high) !important;
+    box-shadow: none !important;
+}
+
+body.furry-shell-enabled .popup[open] .menu_button_default,
+body.furry-shell-enabled .popup[open] .popup-button-ok,
+body.furry-shell-enabled #dialogue_popup .menu_button_default,
+body.furry-shell-enabled #dialogue_popup_ok {
+    color: var(--furry-accent-contrast, #071316) !important;
+    border-color: var(--furry-cyan) !important;
+    background: var(--furry-cyan) !important;
+}
+
+body.furry-shell-enabled #dialogue_popup {
+    color: var(--furry-text);
+    border: 1px solid var(--furry-border);
+    border-radius: 8px;
+    background: var(--furry-glass-bg-strong);
+    box-shadow: var(--furry-glass-shadow);
+    backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+    -webkit-backdrop-filter: blur(var(--furry-glass-blur)) saturate(120%);
+}
+
+body.furry-shell-enabled .popup[open] .popup-controls {
+    width: 100%;
+    margin: 0;
+    padding: 12px 18px;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid var(--furry-border-soft);
+    background: var(--furry-glass-bg-strong);
+    box-shadow: inset 0 1px 0 var(--furry-glass-highlight);
+}
+
+body.furry-shell-enabled .popup[open] .popup-button-close {
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    color: var(--furry-muted);
+    border: 1px solid var(--furry-border);
+    border-radius: 8px;
+    background: var(--furry-surface-high);
+}
+
+@media (max-width: 760px) {
+    .furry-native-panel-header {
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        min-height: 58px;
+        padding: 6px 8px;
+        gap: 6px;
+    }
+
+    .furry-native-panel-header.is-root {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 12px;
+    }
+
+    .furry-native-panel-icon {
+        display: none;
+    }
+
+    .furry-native-panel-copy strong {
+        font-size: 15px;
+    }
+
+    .furry-native-panel-copy span {
+        font-size: 10px;
+    }
+
+    body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) > .scrollableInner,
+    body.furry-shell-enabled #WorldInfo.openDrawer > #wi-holder,
+    body.furry-shell-enabled #rm_extensions_block.openDrawer > .extensions_block,
+    body.furry-shell-enabled #PersonaManagement.openDrawer > .flex-container,
+    body.furry-shell-enabled #user-settings-block.openDrawer > #user-settings-block-content,
+    body.furry-shell-enabled #rm_api_block.openDrawer > .flex-container {
+        padding: 10px 10px 22px !important;
+    }
+
+    body.furry-shell-enabled #AdvancedFormatting.openDrawer {
+        padding: 0 10px 22px !important;
+    }
+
+    body.furry-shell-enabled #AdvancedFormatting.openDrawer > .furry-native-panel-header {
+        margin: 0 -10px 10px;
+    }
+
+    body.furry-shell-enabled #rm_extensions_block.openDrawer #extensions_settings,
+    body.furry-shell-enabled #rm_extensions_block.openDrawer #extensions_settings2 {
+        width: 100% !important;
+    }
+
+    body.furry-shell-enabled #PersonaManagement.openDrawer #persona-management-block {
+        flex-direction: column;
+    }
+
+    body.furry-shell-enabled #rm_api_block.openDrawer #main-API-selector-block {
+        top: 58px;
+        margin: -10px -10px 12px;
+        padding: 8px 10px;
+    }
+
+    body.furry-shell-enabled #PersonaManagement.openDrawer .persona_management_left_column,
+    body.furry-shell-enabled #PersonaManagement.openDrawer .persona_management_right_column {
+        width: 100%;
+        padding: 10px;
+    }
+
+    body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content) .flex-container {
+        max-width: 100%;
+    }
+
+    body.furry-shell-enabled .popup[open] {
+        width: calc(100% - 16px);
+        max-width: calc(100% - 16px);
+        max-height: calc(100dvh - 16px);
+    }
+
+    body.furry-shell-enabled .popup.furry-action-loader-popup[open] {
+        width: min(360px, calc(100% - 24px));
+        min-height: 150px;
+    }
+
+    body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-body,
+    body.furry-shell-enabled .popup.furry-action-loader-popup[open] .popup-content {
+        min-height: 150px;
+    }
+
+    body.furry-shell-enabled .popup[open] .popup-content {
+        padding: 14px;
+    }
+
+    body.furry-shell-enabled .popup[open] .popup-controls {
+        padding: 10px 14px;
+    }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    body.furry-shell-enabled .drawer-content.openDrawer:not(#horae_drawer_content),
+    .furry-native-panel-header,
+    body.furry-shell-enabled #rm_api_block.openDrawer #main-API-selector-block,
+    body.furry-shell-enabled .popup[open],
+    body.furry-shell-enabled #dialogue_popup,
+    body.furry-shell-enabled .popup[open] .popup-controls {
+        background: var(--furry-surface) !important;
+    }
+}
+
+/* Root-native pages and simplified settings surfaces */
+body.furry-shell-enabled .furry-native-root-panel > .furry-native-panel-header {
+    padding-inline-end: max(16px, var(--furry-safe-right));
+    padding-inline-start: max(16px, var(--furry-safe-left));
+}
+
+.furry-ordinary-hidden,
+body.furry-shell-enabled #option_toggle_AN,
+body.furry-shell-enabled #option_toggle_CFG,
+body.furry-shell-enabled #option_toggle_logprobs,
+body.furry-shell-enabled #option_new_bookmark {
+    display: none !important;
+}
+
+body.furry-shell-enabled .furry-preset-simplified #clickSlidersTips,
+body.furry-shell-enabled .furry-preset-simplified #lm_button_panel_pin_div,
+body.furry-shell-enabled .furry-preset-simplified > .topRightInset,
+body.furry-shell-enabled .furry-preset-simplified #common-gen-settings-block > hr {
+    display: none;
+}
+
+body.furry-shell-enabled .furry-preset-simplified #ai_response_configuration {
+    display: grid;
+    width: 100%;
+    gap: 12px;
+}
+
+body.furry-shell-enabled .furry-preset-common {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--furry-glass-edge, var(--furry-border-soft));
+    border-radius: 8px;
+    background-color: var(--furry-glass-bg-soft, var(--furry-surface));
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow, inset 0 1px 0 var(--furry-glass-highlight));
+}
+
+body.furry-shell-enabled .furry-preset-common #pro-settings-block {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 10px;
+}
+
+body.furry-shell-enabled .furry-preset-common #prompt_cost_block {
+    grid-column: 1 / -1;
+}
+
+body.furry-shell-enabled .furry-openai-common-settings[hidden] {
+    display: none !important;
+}
+
+body.furry-shell-enabled .furry-openai-common-settings {
+    display: grid;
+    gap: 8px;
+}
+
+body.furry-shell-enabled .furry-openai-common-settings .furry-preset-common-control {
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--furry-border-soft);
+}
+
+body.furry-shell-enabled .furry-openai-common-settings .furry-preset-common-control:last-child {
+    border-bottom: 0;
+}
+
+.furry-preset-advanced-groups,
+.furry-settings-groups {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: 8px;
+}
+
+.furry-native-disclosure {
+    width: 100%;
+    min-width: 0;
+    overflow: clip;
+    color: var(--furry-text);
+    border: 1px solid var(--furry-glass-edge, var(--furry-border-soft));
+    border-radius: 8px;
+    background-color: var(--furry-glass-bg-soft, var(--furry-surface));
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow, inset 0 1px 0 var(--furry-glass-highlight));
+}
+
+.furry-native-disclosure-summary {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 28px;
+    align-items: center;
+    min-height: 52px;
+    padding: 8px 10px;
+    gap: 8px;
+    color: var(--furry-text);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: color var(--furry-liquid-duration-fast, 150ms) ease,
+        background-color var(--furry-liquid-duration-fast, 150ms) ease;
+}
+
+.furry-native-disclosure-summary::-webkit-details-marker {
+    display: none;
+}
+
+.furry-native-disclosure-summary:hover,
+.furry-native-disclosure-summary:focus-visible {
+    color: var(--furry-cyan);
+    background-color: color-mix(in srgb, var(--furry-cyan) 8%, transparent);
+    outline: none;
+}
+
+.furry-native-disclosure-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--furry-cyan);
+    border: 1px solid color-mix(in srgb, var(--furry-cyan) 28%, transparent);
+    border-radius: 7px;
+    background-color: color-mix(in srgb, var(--furry-cyan) 9%, transparent);
+    box-shadow: inset 0 1px 0 var(--furry-glass-highlight);
+}
+
+.furry-native-disclosure-summary strong {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 720;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.furry-native-disclosure-chevron {
+    justify-self: center;
+    color: var(--furry-muted);
+    font-size: 12px;
+    transition: transform var(--furry-liquid-duration, 240ms) var(--furry-liquid-spring, ease-out);
+}
+
+.furry-native-disclosure[open] > .furry-native-disclosure-summary {
+    border-bottom: 1px solid var(--furry-border-soft);
+}
+
+.furry-native-disclosure[open] > .furry-native-disclosure-summary .furry-native-disclosure-chevron {
+    transform: rotate(180deg);
+}
+
+.furry-native-disclosure-content {
+    min-width: 0;
+    padding: 12px;
+    background-color: color-mix(in srgb, var(--furry-surface) 68%, transparent);
+}
+
+.furry-native-disclosure[open] > .furry-native-disclosure-content {
+    animation: furry-native-disclosure-in var(--furry-liquid-duration, 240ms) var(--furry-liquid-ease, ease-out);
+}
+
+body.furry-shell-enabled #user-settings-block-content {
+    display: block;
+    width: 100%;
+    min-width: 0;
+}
+
+body.furry-shell-enabled #user-settings-block-content > .furry-settings-groups {
+    max-width: 760px;
+    margin-inline: auto;
+}
+
+body.furry-shell-enabled #user-settings-block-content > .furry-native-legacy-column {
+    display: none;
+}
+
+body.furry-shell-enabled .furry-settings-groups [name="AvatarAndChatDisplay"],
+body.furry-shell-enabled .furry-settings-groups [name="CharacterHandlingToggles"],
+body.furry-shell-enabled .furry-settings-groups [name="themeToggles"],
+body.furry-shell-enabled .furry-settings-groups [name="ChatMessageHandlingToggles"],
+body.furry-shell-enabled .furry-settings-groups [name="MiscellaneousToggles"],
+body.furry-shell-enabled .furry-settings-groups [name="STscriptToggles"] {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    gap: 6px;
+}
+
+.furry-theme-mode-control {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 8px;
+}
+
+body.furry-shell-enabled #user-settings-block.openDrawer .furry-theme-mode-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin: 0;
+    padding: 8px 12px;
+    gap: 8px;
+    color: var(--furry-muted);
+    border: 1px solid var(--furry-border) !important;
+    border-radius: 8px !important;
+    background-color: var(--furry-surface-high) !important;
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow, inset 0 1px 0 var(--furry-glass-highlight)) !important;
+}
+
+body.furry-shell-enabled #user-settings-block.openDrawer .furry-theme-mode-button:hover,
+body.furry-shell-enabled #user-settings-block.openDrawer .furry-theme-mode-button:focus-visible,
+body.furry-shell-enabled #user-settings-block.openDrawer .furry-theme-mode-button.is-active {
+    color: var(--furry-cyan);
+    border-color: color-mix(in srgb, var(--furry-cyan) 55%, transparent) !important;
+    background-color: color-mix(in srgb, var(--furry-cyan) 12%, var(--furry-surface-high)) !important;
+    outline: none;
+}
+
+body.furry-shell-enabled #user-settings-block.openDrawer .furry-theme-mode-button.is-active {
+    box-shadow: var(--furry-focus-ring), var(--furry-glass-inner-shadow) !important;
+}
+
+/* Chat actions and wand tools reuse the original click handlers and injected nodes. */
+body.furry-shell-enabled #options,
+body.furry-shell-enabled #extensionsMenu {
+    width: min(360px, calc(100vw - 24px));
+    max-width: min(360px, calc(100vw - 24px));
+    max-height: min(620px, calc(100dvh - var(--furry-header-height) - var(--furry-nav-height) - 28px));
+    padding: 0;
+    overflow: hidden;
+    color: var(--furry-text);
+    border: 1px solid var(--furry-glass-edge-strong, var(--furry-border));
+    border-radius: 8px;
+    background-color: var(--furry-glass-bg-strong);
+    background-image: var(--furry-glass-sheen);
+    box-shadow: var(--furry-glass-inner-shadow, inset 0 1px 0 var(--furry-glass-highlight)), var(--furry-glass-shadow);
+    backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+    -webkit-backdrop-filter: var(--furry-glass-filter, blur(var(--furry-glass-blur)) saturate(120%));
+    overscroll-behavior: contain;
+}
+
+body.furry-shell-enabled #options .options-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: inherit;
+    padding: 0 8px 8px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: var(--furry-text);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    scrollbar-color: var(--furry-border) transparent;
+}
+
+.furry-chat-menu-titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    margin: 0 -8px 6px;
+    padding: 7px 8px 7px 13px;
+    gap: 10px;
+    border-bottom: 1px solid var(--furry-border-soft);
+    background-color: var(--furry-glass-bg-strong);
+    background-image: var(--furry-glass-sheen);
+    box-shadow: inset 0 -1px 0 var(--furry-glass-highlight);
+    backdrop-filter: var(--furry-glass-filter, blur(14px) saturate(120%));
+    -webkit-backdrop-filter: var(--furry-glass-filter, blur(14px) saturate(120%));
+}
+
+#extensionsMenu > .furry-chat-menu-titlebar {
+    margin: 0;
+}
+
+.furry-chat-menu-titlebar strong {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 9px;
+    color: var(--furry-text);
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.furry-chat-menu-titlebar strong > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: var(--furry-cyan);
+    border-radius: 7px;
+    background-color: color-mix(in srgb, var(--furry-cyan) 10%, transparent);
+}
+
+.furry-chat-menu-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    margin: 0;
+    padding: 0;
+    color: var(--furry-muted);
+    font: inherit;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.furry-chat-menu-close:hover,
+.furry-chat-menu-close:focus-visible {
+    color: var(--furry-cyan);
+    border-color: var(--furry-border);
+    background-color: var(--furry-surface-high);
+    outline: none;
+}
+
+.furry-chat-menu-group-label {
+    display: block;
+    padding: 10px 8px 4px;
+    color: var(--furry-subtle);
+    font-size: 10px;
+    font-weight: 720;
+    line-height: 1.2;
+}
+
+body.furry-shell-enabled #options .options-content > hr {
+    display: none;
+}
+
+body.furry-shell-enabled #options .options-content > a {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: center;
+    min-height: 44px;
+    margin: 1px 0;
+    padding: 7px 9px;
+    gap: 9px;
+    color: var(--furry-text);
+    border: 1px solid transparent;
+    border-radius: 7px;
+    opacity: 1;
+    cursor: pointer;
+    transition: color var(--furry-liquid-duration-fast, 150ms) ease,
+        border-color var(--furry-liquid-duration-fast, 150ms) ease,
+        background-color var(--furry-liquid-duration-fast, 150ms) ease,
+        transform var(--furry-liquid-duration, 240ms) var(--furry-liquid-spring, ease-out);
+}
+
+body.furry-shell-enabled #options .options-content > a:hover,
+body.furry-shell-enabled #options .options-content > a:focus-visible {
+    color: var(--furry-cyan);
+    border-color: color-mix(in srgb, var(--furry-cyan) 26%, transparent);
+    background-color: color-mix(in srgb, var(--furry-cyan) 8%, var(--furry-surface));
+    outline: none;
+}
+
+body.furry-shell-enabled #options .options-content > a:active {
+    transform: scale(var(--furry-liquid-press-scale, 0.972));
+}
+
+body.furry-shell-enabled #options .options-content > a > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--furry-muted);
+    font-size: 14px;
+}
+
+body.furry-shell-enabled #options .options-content > a:hover > i,
+body.furry-shell-enabled #options .options-content > a:focus-visible > i {
+    color: var(--furry-cyan);
+}
+
+body.furry-shell-enabled #options_button,
+body.furry-shell-enabled #extensionsMenuButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--furry-muted);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: transparent;
+    transition: color var(--furry-liquid-duration-fast, 150ms) ease,
+        border-color var(--furry-liquid-duration-fast, 150ms) ease,
+        background-color var(--furry-liquid-duration-fast, 150ms) ease,
+        transform var(--furry-liquid-duration, 240ms) var(--furry-liquid-spring, ease-out);
+}
+
+body.furry-shell-enabled #options_button:hover,
+body.furry-shell-enabled #options_button:focus-visible,
+body.furry-shell-enabled #extensionsMenuButton:hover,
+body.furry-shell-enabled #extensionsMenuButton:focus-visible,
+body.furry-shell-enabled #options_button.is-active,
+body.furry-shell-enabled #extensionsMenuButton.is-active {
+    color: var(--furry-cyan);
+    border-color: color-mix(in srgb, var(--furry-cyan) 32%, transparent);
+    background-color: color-mix(in srgb, var(--furry-cyan) 10%, var(--furry-surface));
+    box-shadow: inset 0 1px 0 var(--furry-glass-highlight);
+    outline: none;
+}
+
+body.furry-shell-enabled #options_button:active,
+body.furry-shell-enabled #extensionsMenuButton:active {
+    transform: scale(var(--furry-liquid-press-scale, 0.972));
+}
+
+.furry-tool-groups {
+    display: grid;
+    width: 100%;
+    max-height: calc(min(620px, 100dvh - var(--furry-header-height) - var(--furry-nav-height) - 28px) - 52px);
+    padding: 7px 8px 10px;
+    gap: 9px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: var(--furry-border) transparent;
+}
+
+.furry-tool-group {
+    display: grid;
+    gap: 4px;
+}
+
+.furry-tool-group:not(:has(.extension_container > *)) {
+    display: none;
+}
+
+.furry-tool-group > h3 {
+    display: flex;
+    align-items: center;
+    min-height: 26px;
+    margin: 0;
+    padding: 3px 7px;
+    gap: 7px;
+    color: var(--furry-subtle);
+    font-size: 10px;
+    font-weight: 720;
+    line-height: 1.2;
+}
+
+.furry-tool-group > h3 i {
+    width: 16px;
+    color: var(--furry-muted);
+    text-align: center;
+}
+
+.furry-tool-group-body,
+.furry-tool-group-body > .extension_container {
+    display: grid;
+    min-width: 0;
+    gap: 3px;
+}
+
+body.furry-shell-enabled #extensionsMenu .extension_container > * {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: center;
+    min-height: 44px;
+    margin: 0;
+    padding: 7px 9px;
+    gap: 9px;
+    color: var(--furry-text);
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background-color: color-mix(in srgb, var(--furry-surface) 76%, transparent);
+    opacity: 1;
+    cursor: pointer;
+}
+
+body.furry-shell-enabled #extensionsMenu .extension_container > *:hover,
+body.furry-shell-enabled #extensionsMenu .extension_container > *:focus-visible {
+    color: var(--furry-cyan);
+    border-color: color-mix(in srgb, var(--furry-cyan) 28%, transparent);
+    background-color: color-mix(in srgb, var(--furry-cyan) 9%, var(--furry-surface));
+    outline: none;
+}
+
+body.furry-shell-enabled #extensionsMenu .extensionsMenuExtensionButton,
+body.furry-shell-enabled #extensionsMenu .extension_container > * > .fa-solid,
+body.furry-shell-enabled #extensionsMenu .extension_container > * > .fa-regular {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: var(--furry-muted);
+    font-size: 14px;
+    border-radius: 7px;
+    background-color: color-mix(in srgb, var(--furry-text) 5%, transparent);
+}
+
+body.furry-shell-enabled #extensionsMenu .extension_container > *:hover .extensionsMenuExtensionButton,
+body.furry-shell-enabled #extensionsMenu .extension_container > *:focus-visible .extensionsMenuExtensionButton {
+    color: var(--furry-cyan);
+}
+
+@keyframes furry-native-disclosure-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 760px) {
+    body.furry-shell-enabled .furry-preset-common #pro-settings-block,
+    .furry-theme-mode-control {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    body.furry-shell-enabled #options,
+    body.furry-shell-enabled #extensionsMenu {
+        width: min(380px, calc(100vw - 16px));
+        max-width: min(380px, calc(100vw - 16px));
+        max-height: calc(100dvh - var(--furry-header-height) - var(--furry-nav-height) - var(--furry-safe-bottom) - 16px);
+    }
+
+    .furry-tool-groups {
+        max-height: calc(100dvh - var(--furry-header-height) - var(--furry-nav-height) - var(--furry-safe-bottom) - 68px);
+        padding-bottom: max(10px, var(--furry-safe-bottom));
+    }
+
+    .furry-native-disclosure-content,
+    body.furry-shell-enabled .furry-preset-common {
+        padding: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .furry-native-disclosure-chevron,
+    .furry-native-panel-back,
+    .furry-native-panel-close,
+    body.furry-shell-enabled #options .options-content > a,
+    body.furry-shell-enabled #options_button,
+    body.furry-shell-enabled #extensionsMenuButton {
+        transition-duration: 1ms;
+    }
+
+    .furry-native-disclosure[open] > .furry-native-disclosure-content {
+        animation: none;
+    }
+}
+
+@supports not (color: color-mix(in srgb, white, black)) {
+    .furry-native-disclosure-summary:hover,
+    .furry-native-disclosure-summary:focus-visible,
+    body.furry-shell-enabled #options .options-content > a:hover,
+    body.furry-shell-enabled #options .options-content > a:focus-visible,
+    body.furry-shell-enabled #extensionsMenu .extension_container > *:hover,
+    body.furry-shell-enabled #extensionsMenu .extension_container > *:focus-visible {
+        background-color: var(--furry-surface-high);
+    }
+}

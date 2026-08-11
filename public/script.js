@@ -417,6 +417,7 @@ let chatSaveTimeout;
 let importFlashTimeout;
 export let isChatSaving = false;
 let firstRun = false;
+let persistFirstRunReset = false;
 export let settingsReady = false;
 let currentVersion = '0.0.0';
 export let displayVersion = 'SillyTavern';
@@ -699,28 +700,31 @@ async function firstLoadInit() {
         throw new Error('Initialization failed');
     }
 
-    const initLoaderOverlay = loader.createOverlay();
-    initLoaderOverlay.classList.add('splash-screen');
+    const usesNewTavernBootstrap = document.body.classList.contains('furry-shell-enabled');
+    let initLoaderHandle = null;
+    if (!usesNewTavernBootstrap) {
+        const initLoaderOverlay = loader.createOverlay();
+        initLoaderOverlay.classList.add('splash-screen');
 
-    const splashLogo = document.createElement('img');
-    splashLogo.src = '/img/logo.png';
-    splashLogo.alt = 'SillyTavern';
-    splashLogo.className = 'splash-logo';
-    splashLogo.ariaLabel = t`SillyTavern Logo`;
+        const splashLogo = document.createElement('img');
+        splashLogo.src = '/img/logo.png';
+        splashLogo.alt = 'SillyTavern';
+        splashLogo.className = 'splash-logo';
+        splashLogo.ariaLabel = t`SillyTavern Logo`;
 
-    const splashMessage = document.createElement('h2');
-    splashMessage.className = 'splash-message';
-    splashMessage.textContent = t`Initializing…`;
-    splashMessage.dataset.i18n = 'Initializing…';
+        const splashMessage = document.createElement('h2');
+        splashMessage.className = 'splash-message';
+        splashMessage.textContent = t`Initializing…`;
+        splashMessage.dataset.i18n = 'Initializing…';
 
-    initLoaderOverlay.prepend(splashLogo);
-    initLoaderOverlay.appendChild(splashMessage);
-
-    const initLoaderHandle = loader.show({
-        slug: 'app-init',
-        toastMode: loader.ToastMode.NONE,
-        overlayContent: initLoaderOverlay,
-    });
+        initLoaderOverlay.prepend(splashLogo);
+        initLoaderOverlay.appendChild(splashMessage);
+        initLoaderHandle = loader.show({
+            slug: 'app-init',
+            toastMode: loader.ToastMode.NONE,
+            overlayContent: initLoaderOverlay,
+        });
+    }
 
     registerPromptManagerMigration();
     initDomHandlers();
@@ -773,7 +777,7 @@ async function firstLoadInit() {
     initSettingsSearch();
     initBulkEdit();
     initReasoning();
-    initWelcomeScreen();
+    initWelcomeScreen({ autoOpen: !usesNewTavernBootstrap });
     await initScrapers();
     initCustomSelectedSamplers();
     initDataMaid();
@@ -783,12 +787,15 @@ async function firstLoadInit() {
     addDebugFunctions();
     doDailyExtensionUpdatesCheck();
     await eventSource.emit(event_types.APP_INITIALIZED);
-    await initLoaderHandle.hide();
+    await initLoaderHandle?.hide();
     await fixViewport();
     await eventSource.emit(event_types.APP_READY);
 }
 
 async function fixViewport() {
+    if (document.body.classList.contains('furry-shell-enabled')) {
+        return;
+    }
     document.body.style.position = 'absolute';
     await delay(1);
     document.body.style.position = '';
@@ -7978,14 +7985,23 @@ export async function getSettings(initLoaderHandle = null) {
         firstRun = !!settings.firstRun;
 
         if (firstRun) {
-            await initLoaderHandle?.hide();
-            await doOnboarding(user_avatar);
+            if (document.body.classList.contains('furry-shell-enabled')) {
+                settings.firstRun = false;
+                persistFirstRunReset = true;
+            } else {
+                await initLoaderHandle?.hide();
+                await doOnboarding(user_avatar);
+            }
             firstRun = false;
         }
     }
     await validateDisabledSamplers();
     settingsReady = true;
     await eventSource.emit(event_types.SETTINGS_LOADED);
+    if (persistFirstRunReset) {
+        persistFirstRunReset = false;
+        saveSettingsDebounced();
+    }
 }
 
 //MARK: saveSettings()

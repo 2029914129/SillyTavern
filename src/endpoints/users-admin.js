@@ -2,36 +2,19 @@ import { promises as fsPromises } from 'node:fs';
 
 import storage from 'node-persist';
 import express from 'express';
-import lodash from 'lodash';
-import { checkForNewContent, CONTENT_TYPES } from './content-manager.js';
 import {
     KEY_PREFIX,
+    UserAccountError,
+    createUserAccount,
     toKey,
     requireAdminMiddleware,
     getUserAvatar,
-    getAllUserHandles,
-    getPasswordSalt,
-    getPasswordHash,
     getUserDirectories,
-    ensurePublicDirectoriesExist,
+    normalizeUserHandle,
 } from '../users.js';
 import { DEFAULT_USER } from '../constants.js';
 
 export const router = express.Router();
-
-/**
- * Slugifies a given text string.
- * - Converts to lowercase
- * - Trims whitespace
- * - Replaces spaces and special characters with hyphens
- * - Removes leading and trailing hyphens
- * - Uses lodash.deburr to remove diacritical marks
- * @param {string} text Text to slugify
- * @returns {string} Slugified text
- */
-function slugify(text) {
-    return lodash.deburr(String(text ?? '').toLowerCase().trim()).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
 
 router.post('/get', requireAdminMiddleware, async (_request, response) => {
     try {
@@ -176,41 +159,19 @@ router.post('/create', requireAdminMiddleware, async (request, response) => {
             return response.status(400).json({ error: 'Missing required fields' });
         }
 
-        const handles = await getAllUserHandles();
-        const handle = slugify(request.body.handle);
-
-        if (!handle) {
-            console.warn('Create user failed: Invalid handle');
-            return response.status(400).json({ error: 'Invalid handle' });
-        }
-
-        if (handles.some(x => x === handle)) {
-            console.warn('Create user failed: User with that handle already exists');
-            return response.status(409).json({ error: 'User already exists' });
-        }
-
-        const salt = getPasswordSalt();
-        const password = request.body.password ? getPasswordHash(request.body.password, salt) : '';
-
-        const newUser = {
-            handle: handle,
-            name: request.body.name || 'Anonymous',
-            created: Date.now(),
-            password: password,
-            salt: salt,
+        const newUser = await createUserAccount({
+            handle: request.body.handle,
+            name: request.body.name,
+            password: request.body.password,
             admin: !!request.body.admin,
-            enabled: true,
-        };
+        });
 
-        await storage.setItem(toKey(handle), newUser);
-
-        // Create user directories
-        console.info('Creating data directories for', newUser.handle);
-        await ensurePublicDirectoriesExist();
-        const directories = getUserDirectories(newUser.handle);
-        await checkForNewContent([directories], [CONTENT_TYPES.SETTINGS]);
         return response.json({ handle: newUser.handle });
     } catch (error) {
+        if (error instanceof UserAccountError) {
+            return response.status(error.status).json({ error: error.message, code: error.code });
+        }
+
         console.error('User create failed:', error);
         return response.sendStatus(500);
     }
@@ -255,7 +216,7 @@ router.post('/slugify', requireAdminMiddleware, async (request, response) => {
             return response.status(400).json({ error: 'Missing required fields' });
         }
 
-        const text = slugify(request.body.text);
+        const text = normalizeUserHandle(request.body.text);
 
         return response.send(text);
     } catch (error) {

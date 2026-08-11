@@ -19,7 +19,7 @@ import ipMatching from 'ip-matching';
 import { USER_DIRECTORY_TEMPLATE, DEFAULT_USER, PUBLIC_DIRECTORIES, SETTINGS_FILE, UPLOADS_DIRECTORY } from './constants.js';
 import { getConfigValue, color, delay, generateTimestamp, invalidateFirefoxCache, isPathUnderParent, setPermissionsSync } from './util.js';
 import { allowKeysExposure, readSecret, writeSecret, SECRETS_FILE } from './endpoints/secrets.js';
-import { getContentOfType } from './endpoints/content-manager.js';
+import { checkForNewContent, CONTENT_TYPES, getContentOfType } from './endpoints/content-manager.js';
 import { serverDirectory } from './server-directory.js';
 import { filterValidIpPatterns, getIpFromRequest } from './express-common.js';
 import { extensionsEnabledFeatureGuard } from './endpoints/extensions.js';
@@ -27,6 +27,7 @@ import { extensionsEnabledFeatureGuard } from './endpoints/extensions.js';
 export const KEY_PREFIX = 'user:';
 const AVATAR_PREFIX = 'avatar:';
 const ENABLE_ACCOUNTS = getConfigValue('enableUserAccounts', false, 'boolean');
+const ENABLE_REGISTRATION = getConfigValue('enableUserRegistration', false, 'boolean');
 const AUTHELIA_AUTH = getConfigValue('sso.autheliaAuth', false, 'boolean');
 const AUTHENTIK_AUTH = getConfigValue('sso.authentikAuth', false, 'boolean');
 const PER_USER_BASIC_AUTH = getConfigValue('perUserBasicAuth', false, 'boolean');
@@ -40,6 +41,12 @@ const TRUSTED_PROXIES = filterValidIpPatterns(getConfigValue('sso.trustedProxies
 const DIRECTORIES_CACHE = new Map();
 const PUBLIC_USER_AVATAR = '/img/default-user.png';
 const COOKIE_SECRET_PATH = 'cookie-secret.txt';
+const MAX_USER_HANDLE_LENGTH = 32;
+const MAX_USER_HANDLE_BYTES = 96;
+const MAX_PASSWORD_LENGTH = 128;
+const WINDOWS_RESERVED_NAMES = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i;
+
+let accountMutationQueue = Promise.resolve();
 
 const STORAGE_KEYS = {
     csrfSecret: 'csrfSecret',
@@ -606,6 +613,195 @@ export function getPasswordSalt() {
 }
 
 /**
+ * Error raised when an account cannot be created.
+ */
+export class UserAccountError extends Error {
+    /**
+     * @param {string} code Stable error code
+     * @param {string} message User-facing error message
+     * @param {number} status HTTP status code
+     */
+    constructor(code, message, status = 400) {
+        super(message);
+        this.name = 'UserAccountError';
+        this.code = code;
+        this.status = status;
+    }
+}
+
+/**
+ * Normalizes a username into a path-safe account handle.
+ * Chinese and other Unicode letters/numbers are preserved.
+ * @param {unknown} value Username supplied by the user
+ * @returns {string} Normalized handle, or an empty string when invalid
+ */
+export function normalizeUserHandle(value) {
+    const handle = String(value ?? '')
+        .normalize('NFKC')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/gu, '-');
+
+    const length = Array.from(handle).length;
+    if (length < 1 || length > MAX_USER_HANDLE_LENGTH || Buffer.byteLength(handle, 'utf8') > MAX_USER_HANDLE_BYTES) {
+        return '';
+    }
+
+    if (!/^[\p{L}\p{N}][\p{L}\p{M}\p{N}_-]*$/u.test(handle) || WINDOWS_RESERVED_NAMES.test(handle)) {
+        return '';
+    }
+
+    return handle;
+}
+
+/**
+ * Creates a user account and initializes its SillyTavern data directories.
+ * @param {object} options Account creation options
+ * @param {unknown} options.handle Account handle
+ * @param {unknown} [options.name] Display name
+ * @param {unknown} [options.password] Plain-text password
+ * @param {boolean} [options.admin] Whether the user is an administrator
+ * @param {boolean} [options.requirePassword] Whether a non-empty password is required
+ * @param {boolean} [options.rejectExistingData] Whether an orphaned data directory blocks account creation
+ * @returns {Promise<User>} Created user
+ */
+export function createUserAccount({ handle, name, password = '', admin = false, requirePassword = false, rejectExistingData = false }) {
+    return runAccountMutation(async () => createUserAccountUnlocked({
+        handle,
+        name,
+        password,
+        admin,
+        requirePassword,
+        rejectExistingData,
+    }));
+}
+
+/**
+ * Registers a public account. During first-run bootstrap, the new account replaces
+ * the enabled, passwordless default administrator.
+ * @param {object} options Registration options
+ * @param {unknown} options.username Username
+ * @param {unknown} options.password Password
+ * @returns {Promise<{user: User, bootstrapped: boolean}>} Registration result
+ */
+export function registerUserAccount({ username, password }) {
+    return runAccountMutation(async () => {
+        const handles = await getAllUserHandles();
+        const nonDefaultHandles = handles.filter(handle => handle !== DEFAULT_USER.handle);
+        /** @type {User|undefined} */
+        const defaultUser = await storage.getItem(toKey(DEFAULT_USER.handle));
+        const bootstrapped = nonDefaultHandles.length === 0
+            && !!defaultUser
+            && defaultUser.enabled
+            && !defaultUser.password;
+
+        const user = await createUserAccountUnlocked({
+            handle: username,
+            name: username,
+            password,
+            admin: bootstrapped,
+            requirePassword: true,
+            rejectExistingData: true,
+        });
+
+        if (bootstrapped && defaultUser) {
+            try {
+                defaultUser.enabled = false;
+                await storage.setItem(toKey(DEFAULT_USER.handle), defaultUser);
+                console.info('Disabled passwordless default user after administrator registration.');
+            } catch (error) {
+                await storage.removeItem(toKey(user.handle));
+                throw error;
+            }
+        }
+
+        return { user, bootstrapped };
+    });
+}
+
+/**
+ * Serializes account mutations so two concurrent registrations cannot both bootstrap.
+ * @template T
+ * @param {() => Promise<T>} callback Mutation callback
+ * @returns {Promise<T>} Mutation result
+ */
+function runAccountMutation(callback) {
+    const operation = accountMutationQueue.then(callback, callback);
+    accountMutationQueue = operation.catch(() => undefined);
+    return operation;
+}
+
+/**
+ * Creates an account while the caller holds the account mutation lock.
+ * @param {object} options Account creation options
+ * @returns {Promise<User>} Created user
+ */
+async function createUserAccountUnlocked({
+    handle,
+    name,
+    password = '',
+    admin = false,
+    requirePassword = false,
+    rejectExistingData = false,
+}) {
+    const normalizedHandle = normalizeUserHandle(handle);
+    if (!normalizedHandle) {
+        throw new UserAccountError(
+            'invalid_username',
+            '用户名只能包含中文、字母、数字、下划线或短横线，长度不能超过 32 个字符。',
+        );
+    }
+
+    const passwordValue = String(password ?? '');
+    if (requirePassword && passwordValue.length < 6) {
+        throw new UserAccountError('invalid_password', '密码至少需要 6 个字符。');
+    }
+    if (passwordValue.length > MAX_PASSWORD_LENGTH) {
+        throw new UserAccountError('invalid_password', '密码不能超过 ' + MAX_PASSWORD_LENGTH + ' 个字符。');
+    }
+
+    const existingUser = await storage.getItem(toKey(normalizedHandle));
+    if (existingUser) {
+        throw new UserAccountError('user_exists', '该用户名已被使用。', 409);
+    }
+
+    if (rejectExistingData && fs.existsSync(getUserDirectories(normalizedHandle).root)) {
+        throw new UserAccountError('user_exists', '该用户名已被使用。', 409);
+    }
+
+    const displayName = String(name ?? handle ?? normalizedHandle)
+        .normalize('NFKC')
+        .trim()
+        .replace(/\s+/gu, ' ') || normalizedHandle;
+    const salt = passwordValue ? getPasswordSalt() : '';
+    const passwordHash = passwordValue ? getPasswordHash(passwordValue, salt) : '';
+    /** @type {User} */
+    const newUser = {
+        handle: normalizedHandle,
+        name: displayName,
+        created: Date.now(),
+        password: passwordHash,
+        salt,
+        admin: !!admin,
+        enabled: true,
+    };
+
+    await storage.setItem(toKey(normalizedHandle), newUser);
+
+    try {
+        console.info('Creating data directories for', newUser.handle);
+        await ensurePublicDirectoriesExist();
+        const directories = getUserDirectories(newUser.handle);
+        await checkForNewContent([directories], [CONTENT_TYPES.SETTINGS]);
+    } catch (error) {
+        await storage.removeItem(toKey(normalizedHandle));
+        throw error;
+    }
+
+    return newUser;
+}
+
+/**
  * Get the session name for the current server.
  * @returns {string} The session name
  */
@@ -787,7 +983,19 @@ async function singleUserLogin(request) {
     const userHandles = await getAllUserHandles();
     if (userHandles.length === 1) {
         const user = await storage.getItem(toKey(userHandles[0]));
-        if (user && !user.password) {
+        const isRegistrationBootstrap = ENABLE_REGISTRATION
+            && userHandles[0] === DEFAULT_USER.handle
+            && user
+            && !user.password;
+
+        const clientIp = getIpFromRequest(request);
+        const isLocalRequest = clientIp === '127.0.0.1' || clientIp === '::1';
+        const isLocalOnlyServer = globalThis.COMMAND_LINE_ARGS?.listen !== true;
+        if (isRegistrationBootstrap && (!isLocalRequest || !isLocalOnlyServer)) {
+            return false;
+        }
+
+        if (user?.enabled && !user.password) {
             request.session.handle = userHandles[0];
             request.session.version = getAccountVersion(user);
             return true;

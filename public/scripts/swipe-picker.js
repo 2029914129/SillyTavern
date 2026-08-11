@@ -164,7 +164,7 @@ async function openSwipePicker(messageId) {
                     'data-i18n': '[title]Create Branch',
                 })
                 .removeClass('exportRawChatButton fa-solid fa-file-export')
-                .addClass('swipe_picker_branch mes_button fa-fw fa-regular fa-code-branch')
+                .addClass('swipe_picker_branch mes_button fa-fw fa-solid fa-code-branch')
                 .on('click', async (event) => {
                     event.preventDefault();
                     event.stopPropagation();

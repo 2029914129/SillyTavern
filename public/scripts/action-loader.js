@@ -540,6 +540,7 @@ function showOverlay(customContent = null) {
         wide: true,
         large: true,
     });
+    loaderPopup.dlg.classList.add('furry-action-loader-popup');
 
     // No close button, loaders are not closable
     loaderPopup.closeButton.style.display = 'none';
