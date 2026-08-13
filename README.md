@@ -1,42 +1,36 @@
 # 新酒馆
 
-基于 SillyTavern `1.18.0` 的个人多用户聊天工作区。项目保留 SillyTavern 的聊天内核、角色卡、世界书、预设、Persona、API 连接与扩展系统，在此基础上增加 FurryBar 风格的界面组织层。
+[English](.github/readme.md) | **简体中文** | [繁體中文](.github/readme-zh_tw.md) | [日本語](.github/readme-ja_jp.md) | [한국어](.github/readme-ko_kr.md) | [Deutsch](.github/readme-de_de.md) | [Русский](.github/readme-ru_ru.md) | [Français](.github/readme-fr_fr.md) | [Español](.github/readme-es_es.md)
 
-## 启动
+基于 SillyTavern `1.18.0` 的多用户 AI 角色聊天工作区。项目保留 SillyTavern 的聊天内核、角色卡、世界书、预设、Persona、API 连接与扩展系统，并在其上提供重新设计的桌面端与移动端界面。
 
-双击 `Start.bat`，启动方式与原版 SillyTavern 相同。默认地址为 `http://127.0.0.1:8000/`。
+> **最新更新：2026-08-13**  
+> 新 UI、日间/夜间主题、液态玻璃界面、Horae 集成与“外置手机”全局悬浮适配已经发布。查看[完整更新日志](CHANGELOG_NEW_UI.md)。
 
-本机首次打开会直接进入默认访客空间，可在“我的”中登录、切换账号或仅用用户名和密码注册。首个注册账号会成为管理员，此后注册的账号为普通用户；每个用户的角色卡、聊天、世界书、预设、Persona、API Key 和工作区状态相互隔离。通过其他设备访问服务器时仍需先登录或注册。
+## 主要功能
 
-首包会直接显示新酒馆消息页，不再展示 SillyTavern 启动画面、首次用户引导或原生欢迎聊天页。初始化期间使用与正式页面一致的加载骨架，避免移动端先出现原生界面再切换。
-
-## 首版结构
-
-- 底部导航：消息、预设、世界书、插件、我的。
-- 每个角色的现有聊天文件视为独立故事线。
-- 每个角色可指定默认故事线，其他故事线在角色卡内折叠展示。
-- 每条故事线可绑定原生 Connection Profile，重新进入时自动恢复模型、预设、API 地址和对应 Key。
-- 聊天页模型窗口中的 API Key 与预设仅提供快捷切换；新增、编辑和删除仍在“我的”完整管理页面中完成。
-- API Key 管理页默认进入“聊天补全”，各用户仍分别保存自己的连接与凭证。
+- 消息、角色卡、预设、世界书、插件和“我的”六个一级页面。
+- 微信式单列角色列表，以及角色、故事线和聊天状态的统一管理。
+- 每条故事线可恢复独立的模型、预设、API 地址与 Connection Profile。
 - Persona 继承沿用 SillyTavern：故事线设定优先于角色绑定，角色绑定优先于全局 Persona。
-- API Key 沿用 SillyTavern 的用户级多 Key 与连接配置能力。
-- 原生设置、世界书、插件、Persona、API、角色编辑和通用弹窗统一使用新酒馆页面框架与控件样式。
-- 高级格式与上下文模板、背景管理也已接回“我的”，避免原生顶栏隐藏后失去入口。
-- 原有核心 DOM、事件、插件入口和消息结构保持兼容。
+- 多用户注册与登录；不同用户的角色卡、聊天、世界书、预设、Persona 和 API Key 相互隔离。
+- 日间/夜间主题、响应式移动布局和统一的液态玻璃视觉。
+- 保留 SillyTavern 原有 DOM、事件、数据格式和扩展接口，尽量兼容现有插件。
+- 集成时光记忆 Horae，并适配“外置手机”等全局悬浮工具。
 
-## 兼容说明
+## 安装与启动
 
-自定义界面位于独立的壳层文件中，原 SillyTavern 功能通过现有控件和事件调用。普通聊天、插件和角色数据仍使用原格式，便于后续跟进上游版本。
+1. 安装 Node.js 20 或更高版本。
+2. 在项目目录运行 `npm install`。
+3. Windows 双击 `Start.bat`；其他平台运行 `npm start`。
+4. 默认访问地址为 `http://127.0.0.1:8000/`。
 
-真正的跨故事线后台并发与关闭浏览器后继续生成，需要把当前浏览器持有的生成流程迁移为服务端任务。本首版先建立故事线状态和工作区接口，后续继续接入服务端生成队列。
+首次注册的账号会成为管理员，之后注册的账号为普通用户。公开仓库不包含任何本地用户数据、聊天记录、角色卡、API Key 或个人配置。
 
-## Resources
+## 兼容与后续计划
 
-- GitHub: <https://github.com/SillyTavern/SillyTavern>
-- Docs: <https://docs.sillytavern.app/>
-- Discord: <https://discord.gg/sillytavern>
-- Reddit: <https://reddit.com/r/SillyTavernAI>
+新 UI 通过独立壳层调用 SillyTavern 的原生控件和事件，聊天、角色、预设与插件数据仍使用原格式。真正的跨故事线服务端并发，以及关闭浏览器后继续生成，仍需继续迁移到服务端任务队列。
 
-## License
+## 许可与致谢
 
-本项目继承 SillyTavern 的 AGPL-3.0 许可。原项目及相关资源链接见下方。
+本项目基于 [SillyTavern](https://github.com/SillyTavern/SillyTavern)，继承 GNU AGPL-3.0 许可。感谢 SillyTavern 与所有相关扩展的开发者和贡献者。
