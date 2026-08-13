@@ -25,6 +25,15 @@
     --furry-header-height: calc(var(--furry-header-content-height) + var(--furry-safe-top));
     --furry-nav-height: 72px;
     --furry-content-width: 880px;
+    --furry-z-page: 0;
+    --furry-z-shell: 6200;
+    --furry-z-header: 6300;
+    --furry-z-navigation: 6500;
+    --furry-z-popover: 7000;
+    --furry-z-external-phone: 32000;
+    --furry-z-modal: 50000;
+    --furry-z-critical: 90000;
+    --furry-z-loader: 999999;
 }
 
 body.furry-shell-enabled {
@@ -94,7 +103,7 @@ body.furry-shell-enabled #top-settings-holder > .drawer > .drawer-toggle {
     overscroll-behavior-x: none;
     isolation: isolate;
     contain: layout paint;
-    z-index: 6200;
+    z-index: var(--furry-z-shell);
     color: var(--furry-text);
     pointer-events: none;
 }
@@ -994,7 +1003,7 @@ body.furry-shell-panel.furry-shell-panel-switching .furry-shell-surface {
     left: 0;
     width: 100%;
     max-width: 100%;
-    z-index: 6500;
+    z-index: var(--furry-z-navigation);
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     min-height: calc(var(--furry-nav-height) + var(--furry-safe-bottom));
@@ -1198,7 +1207,7 @@ body.furry-shell-panel.furry-shell-panel-switching .furry-shell-surface {
     position: absolute;
     top: 0;
     left: 50%;
-    z-index: 6300;
+    z-index: var(--furry-z-header);
     width: min(100%, 960px);
     max-width: 100%;
     min-width: 0;
@@ -1323,7 +1332,7 @@ body.furry-shell-chat .furry-chat-header {
     justify-content: center;
     position: absolute;
     inset: 0;
-    z-index: 7000;
+    z-index: var(--furry-z-popover);
     max-width: 100%;
     min-width: 0;
     padding: calc(18px + var(--furry-safe-top)) max(18px, var(--furry-safe-right)) calc(var(--furry-nav-height) + 14px + var(--furry-safe-bottom)) max(18px, var(--furry-safe-left));

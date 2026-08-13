@@ -1,0 +1,111 @@
+/* Global layer adapter for the third-party "mobile" extension. */
+
+:root {
+    --furry-external-phone-vv-width: 100dvw;
+    --furry-external-phone-vv-height: 100dvh;
+    --furry-external-phone-vv-left: 0px;
+    --furry-external-phone-vv-top: 0px;
+    --furry-external-phone-frame-width: min(70vw, 375px, calc(50dvh - 12px));
+}
+
+#furry-shell-bootstrap {
+    z-index: var(--furry-z-critical, 90000);
+}
+
+body.furry-shell-enabled > #mobile-phone-container.mobile-phone-container {
+    position: fixed;
+    top: var(--furry-external-phone-vv-top);
+    left: var(--furry-external-phone-vv-left);
+    z-index: var(--furry-z-external-phone, 32000);
+    width: var(--furry-external-phone-vv-width);
+    height: var(--furry-external-phone-vv-height);
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    isolation: isolate;
+    overscroll-behavior: contain;
+}
+
+/* The extension fades for 300ms before setting display:none. Never let that
+   invisible interval block the application underneath. */
+body.furry-shell-enabled > #mobile-phone-container.mobile-phone-container:not(.active) {
+    pointer-events: none !important;
+}
+
+body.furry-shell-enabled > #mobile-phone-container > .mobile-phone-frame {
+    width: var(--furry-external-phone-frame-width);
+    max-width: calc(
+        var(--furry-external-phone-vv-width) - var(--furry-safe-left, 0px) - var(--furry-safe-right, 0px) - 16px
+    );
+    max-height: calc(
+        var(--furry-external-phone-vv-height) - var(--furry-safe-top, 0px) - var(--furry-safe-bottom, 0px) - 16px
+    );
+    aspect-ratio: 375 / 737;
+    pointer-events: auto;
+    overscroll-behavior: contain;
+}
+
+body.furry-shell-enabled > #mobile-phone-container .mobile-phone-screen,
+body.furry-shell-enabled > #mobile-phone-container .mobile-content,
+body.furry-shell-enabled > #mobile-phone-container .app-content {
+    overscroll-behavior: contain;
+}
+
+body.furry-shell-enabled > #mobile-phone-container .mobile-status-bar {
+    touch-action: none;
+}
+
+/* DragHelper writes position and a lower z-index inline/on a drag class. The
+   trigger is a separate body child, so it must stay in the same global layer. */
+body.furry-shell-enabled > #mobile-phone-trigger.mobile-phone-trigger {
+    position: fixed !important;
+    z-index: var(--furry-z-external-phone, 32000) !important;
+    touch-action: none;
+}
+
+body.furry-shell-booting > #mobile-phone-container,
+body.furry-shell-booting > #mobile-phone-trigger {
+    visibility: hidden;
+    pointer-events: none !important;
+}
+
+/* These are extension-owned full-screen editors and confirmations. They must
+   remain above the floating phone while retaining their original DOM/state. */
+body.furry-shell-enabled > :is(
+    #mobile-api-config-panel,
+    #mobile-context-editor-modal,
+    #mobile-full-text-modal,
+    #mobile-upload-ui,
+    #forum-panel-overlay,
+    #load-options-dialog,
+    #import-options-dialog,
+    .image-config-modal,
+    .friends-circle-publish-modal,
+    .friends-circle-text-publish-modal,
+    .friends-circle-image-publish-modal,
+    .backpack-equip-modal-overlay,
+    .custom-modal,
+    .special-panel,
+    .weibo-dialog-overlay
+) {
+    z-index: var(--furry-z-modal, 50000) !important;
+}
+
+/* Modern confirmations use the browser dialog top layer. Keep the legacy
+   fallback in the same documented modal tier as well. */
+body.furry-shell-enabled #shadow_popup {
+    z-index: var(--furry-z-modal, 50000);
+}
+
+@media (max-width: 720px) {
+    :root {
+        --furry-external-phone-frame-width: min(80vw, 300px, calc(50dvh - 10px));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.furry-shell-enabled > #mobile-phone-container.mobile-phone-container,
+    body.furry-shell-enabled > #mobile-phone-trigger.mobile-phone-trigger {
+        transition-duration: 0.01ms;
+    }
+}

@@ -18,65 +18,77 @@
 
 ---
 
-# new sillytavern
+SillyTavernは、多くのLLM API（KoboldAI/CPP、Horde、NovelAI、Ooba、Tabby、OpenAI、OpenRouter、Claude、Mistralなど）に対応した統一インターフェース、モバイルフレンドリーなレイアウト、ビジュアルノベルモード、Automatic1111 & ComfyUI API画像生成連携、TTS、WorldInfo（伝承本）、カスタマイズ可能なUI、自動翻訳、必要以上に豊富なプロンプトオプション、そしてサードパーティ製拡張機能による無限の成長可能性を提供します。
 
-new sillytavernは [SillyTavern](https://github.com/SillyTavern/SillyTavern) をベースにしたコミュニティ製 UI リデザインです。よりシンプルなナビゲーション、モバイルデバイスでの操作しやすさ、統一されたビジュアル体験を求めるユーザーを主な対象としています。
+私たちは[ドキュメントウェブサイト](https://docs.sillytavern.app/)を用意しており、ほとんどの質問に答え、入門の手助けをします。
 
-本プロジェクトは SillyTavern のコア機能であるチャット、キャラクターカード、プリセット、ワールドブック、拡張機能を維持しつつ、主要ページ、ナビゲーション構造、テーマシステム、よく使う操作フローを再設計しています。
+## SillyTavernとは？
 
-> 本プロジェクトは非公式のコミュニティ改変版であり、SillyTavern 公式チームとの所属関係はなく、公式バージョンや公式サポート窓口を代表するものでもありません。
+SillyTavern（略してST）は、テキスト生成LLM、画像生成エンジン、TTS音声モデルと対話するための、ローカルにインストールされるユーザーインターフェースです。
 
-## 主な変更点
+2023年2月にTavernAI 1.2.8のフォークとして始まり、SillyTavernは現在200人以上の貢献者と2年間の独立した開発を経て、知識豊富なAI愛好家のための主要なソフトウェアとして機能し続けています。
 
-- メッセージ、キャラクターカード、プリセット、ワールドブック、プラグイン、ユーザー設定などの主要ページを再設計；
-- キャラクターセッションリストを単一列化し、キャラクター選択とチャット切り替えの体験を最適化；
-- ダークモードとライトモードの両方に適したリキッドグラス（液体ガラス）のビジュアルエフェクトを追加；
-- ボトムナビゲーションバーを作り直し、押下、バウンス、流体スライドのフィードバックを追加；
-- 一般ユーザーが使用頻度の低い高度な入口を簡素化しつつ、基盤となる互換性は維持；
-- プリセットとインターフェース設定を整理し、高度なオプションをカテゴリ別に折りたたみ；
-- チャット入力欄メニュー、ツールパネル、通知、ローディングページを最適化；
-- Horae 時光記憶プラグインの入口とパネルスタイルに適合；
-- スマホの狭い画面、セーフエリア、ソフトキーボード、縦横画面の体験を改善；
-- 柔らかなダークモードとライトモードを提供。
+## 私たちのビジョン
 
-## 現在の状況
+1. 私たちは、ユーザーにできるだけ多くの実用性とLLMプロンプトの制御権限を与えることを目指しています。急な学習曲線も楽しみの一部です！
+2. 私たちはオンラインサービスやホストされたサービスを提供せず、プログラム的にユーザーデータを追跡することもありません。
+3. SillyTavernは、熱心なLLM愛好家のコミュニティによってもたらされた情熱的なプロジェクトであり、常に無料でオープンソースです。
 
-現在のバージョンは SillyTavern `1.18.0` をベースに開発されています。プロジェクトは継続的なテスト段階にあり、一部のサードパーティ拡張機能は、それ自体の更新やインターフェース構造の変更により互換性の問題が生じる可能性があります。
+## SillyTavernを実行するには強力なPCが必要ですか？
 
-リリース版を使用する前に、キャラクターカード、チャット履歴、プリセット、ワールドブック、Persona、プラグインデータを必ずバックアップしてください。
+ハードウェア要件は最小限です。NodeJS 20以上を実行できるものであれば何でも動作します。ローカルマシンでLLM推論を行う場合は、少なくとも6GBのVRAMを搭載した3000シリーズのNVIDIAグラフィックスカードを推奨しますが、実際の要件は使用するモデルやバックエンドによって異なる場合があります。
 
-## インストールと起動
+## 質問や提案はありますか？
 
-### Windows
+### Discordサーバー
 
-1. プロジェクトが要求する Node.js のバージョンと Git をインストールします。
-2. 本リポジトリをクローンします。
-3. プロジェクトが提供する起動スクリプトを実行します。
-4. サービスの起動が完了したら、ブラウザでローカルページを開きます。
+| [![][discord-shield-badge]][discord-link] | [私たちのDiscordコミュニティに参加してください！](https://discord.gg/sillytavern) サポートを受けたり、お気に入りのキャラクターやプロンプトを共有したりできます。 |
+| :---------------------------------------- | :----------------------------------------------------------------------------------------------------------------- |
 
-具体的な環境要件とコマンドについては、[インストールドキュメント](docs/installation.md) を参照してください。
+または、開発者に直接連絡してください：
 
-## 公式バージョンとの関係
+* Discord: cohee, rossascends, wolfsblvt
+* Reddit: [/u/RossAscends](https://www.reddit.com/user/RossAscends/), [/u/sillylossy](https://www.reddit.com/user/sillylossy/), [u/Wolfsblvt](https://www.reddit.com/user/Wolfsblvt/)
+* [GitHub issueを投稿](https://github.com/SillyTavern/SillyTavern/issues)
 
-本プロジェクトは SillyTavern を改変したものであり、元のライセンスと著作権表示を保持しています。SillyTavern の公式ドキュメント、問題報告、更新情報については、公式リポジトリをご覧ください。
+### このプロジェクトが気に入りました！どうすれば貢献できますか？
 
-本リポジトリの改変に関する問題は本プロジェクトの Issues に投稿し、改変によって生じた問題を SillyTavern 公式のメンテナーに直接報告しないでください。
+1. プルリクエストを送ってください。貢献する方法については、[CONTRIBUTING.md](../CONTRIBUTING.md)をご覧ください。
+2. 提供されたテンプレートを使用して、機能の提案や問題の報告を送ってください。
+3. 重複した問題を避けるために、まずこのreadmeファイル全体とドキュメントウェブサイトを確認してください。
 
-## データとプライバシー
+## スクリーンショット
 
-本プロジェクトはリポジトリ内にユーザーの API Key、チャット履歴、キャラクターデータ、個人設定を一切提供しません。利用者は自身のサービスキーを適切に保管し、アップグレードや移行の前にデータをバックアップしてください。
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/9b5f32f0-c3b3-4102-b3f5-0e9213c0f50f">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/913fdbaa-7d33-42f1-ae2c-89dca41c53d1">
 
-## サードパーティ拡張機能
+## インストール
 
-Horae、酒場助手、LittleWhiteBox などの拡張機能はそれぞれの作者によって保守されており、それぞれのライセンスが適用されます。本プロジェクトにおける関連拡張機能の説明は互換性の適合状況を示すものに過ぎず、それらの拡張機能を所有または再ライセンスするものではありません。
+詳細なインストール手順については、私たちのドキュメントをご覧ください：
 
-## ライセンス
+* **[Windowsインストールガイド](https://docs.sillytavern.app/installation/windows/)**
+* **[MacOS/Linuxインストールガイド](https://docs.sillytavern.app/installation/linuxmacos/)**
+* **[Android (Termux)インストールガイド](https://docs.sillytavern.app/installation/android-(termux)/)**
+* **[Dockerインストールガイド](https://docs.sillytavern.app/installation/docker/)**
 
-本プロジェクトは SillyTavern の派生版であり、リポジトリ内の `LICENSE` ファイルに従って公開されています。サードパーティの依存関係、拡張機能、フォント、アイコン、その他のリソースにはそれぞれのライセンスが適用される場合がありますので、関連する著作権表示も併せてご確認ください。
+## ライセンスとクレジット
 
-## 謝辞
+**このプログラムは有用であることを期待して配布されていますが、いかなる保証もありません。商品性または特定目的への適合性の黙示の保証さえもありません。詳細はGNU Affero General Public Licenseをご覧ください。**
 
-SillyTavern 公式チーム、コミュニティ貢献者、関連拡張機能の作者の皆様に、オープンソースプロジェクトとエコシステムのサポートに感謝いたします。
+* [TavernAI](https://github.com/TavernAI/TavernAI) 1.2.8 by Humi: MITライセンス
+* CncAnonのTavernAITurbo modの一部を許可を得て使用
+* PepperTacoの作品に触発されたビジュアルノベルモード (<https://github.com/peppertaco/Tavern/>)
+* GoogleによるNoto Sansフォント (OFLライセンス)
+* Font Awesomeによるアイコンテーマ <https://fontawesome.com> (アイコン: CC BY 4.0, フォント: SIL OFL 1.1, コード: MITライセンス)
+* @OtisAlejandroによるデフォルトコンテンツ（Seraphinaキャラクターと伝承本）と@kallmefloccによる10K Discordユーザー記念背景
+* [@mrguymiah](https://github.com/mrguymiah)と[@Bronya-Rand](https://github.com/Bronya-Rand)によるDockerガイド
+* [@hexgrad](https://github.com/hexgrad)によるkokoro-jsライブラリ (Apache-2.0ライセンス)
+
+## トップコントリビューター
+
+[![Contributors](https://contrib.rocks/image?repo=SillyTavern/SillyTavern)](https://github.com/SillyTavern/SillyTavern/graphs/contributors)
+
+<!-- LINK GROUP -->
 [cover]: https://github.com/user-attachments/assets/01a6ae9a-16aa-45f2-8bff-32b5dc587e44
 [discord-link]: https://discord.gg/sillytavern
 [discord-shield-badge]: https://img.shields.io/discord/1100685673633153084?color=5865F2&label=discord&labelColor=black&logo=discord&logoColor=white&style=for-the-badge
